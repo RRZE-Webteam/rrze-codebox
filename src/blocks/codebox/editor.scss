@@ -1,0 +1,9 @@
+/**
+ * Editor-only styling. Scoped to this block's wrapper so it cannot leak
+ * into other blocks or the editor chrome (Standard section 31.4 / 34).
+ */
+.wp-block-rrze-codebox {
+	.description {
+		margin-top: 0.25em;
+	}
+}

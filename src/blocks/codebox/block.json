@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "rrze/codebox",
+    "version": "1.0.0",
+    "title": "CodeBox",
+    "category": "rrze",
+    "icon": "editor-code",
+    "description": "Displays syntax-highlighted code with optional line numbers, line highlighting, and a copy button.",
+    "keywords": ["code", "syntax", "highlight", "programming"],
+    "textdomain": "rrze-codebox",
+    "attributes": {
+        "content": {
+            "type": "string",
+            "default": ""
+        },
+        "language": {
+            "type": "string",
+            "default": "javascript"
+        },
+        "theme": {
+            "type": "string",
+            "default": "light",
+            "enum": ["light", "dark"]
+        },
+        "showLineNumbers": {
+            "type": "boolean",
+            "default": false
+        },
+        "firstLineNumber": {
+            "type": "integer",
+            "default": 1
+        },
+        "highlightLines": {
+            "type": "string",
+            "default": ""
+        },
+        "showLanguage": {
+            "type": "boolean",
+            "default": true
+        },
+        "makeUrlsClickable": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "supports": {
+        "html": false,
+        "color": false,
+        "typography": false,
+        "spacing": false,
+        "align": false
+    },
+    "editorScript": "file:./index.js",
+    "style": "file:./style-index.css",
+    "editorStyle": "file:./index.css",
+    "render": "file:./render.php",
+    "viewScript": "file:./view.js"
+}
+
+

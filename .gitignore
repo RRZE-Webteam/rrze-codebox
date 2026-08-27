@@ -1,0 +1,46 @@
+# Dependencies (reinstalled via `npm ci`; package-lock.json IS committed).
+# Never commit or upload node_modules — it is large, rebuildable, and not
+# part of the maintained source (Standard section 39.2).
+/node_modules/
+
+# LLM tool configuration is a personal/workstation concern, never a plugin
+# artifact. The RRZE LLM specification requires these to live only in each
+# developer's global tool config (e.g. ~/.claude/CLAUDE.md) and explicitly
+# forbids duplicating the RRZE standard into a per-plugin copy
+# (LLM-Spezifikation-Dauerhafte-Anweisungen.md). A project-local file is
+# only ever allowed for genuine plugin-specific instructions, never as a
+# place to store or mirror the standard — and even then it stays out of
+# this repository unless the team explicitly decides otherwise.
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.cursor/rules/
+
+# Build output is committed to main (Standard section 39: main must be
+# directly executable), but never commit it from a local, possibly stale
+# or non-production build on dev/feature branches. Adjust this rule to your
+# team's actual branch policy before first release; as shipped, build/ is
+# ignored so contributors don't accidentally commit local dev builds.
+/build/*
+!/build/.gitkeep
+
+# Local IDE / OS artifacts
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local environment / credentials — never commit these regardless
+.env
+.env.*
+wp-config-local.php
+
+# Logs, temp, coverage
+*.log
+*.tmp
+/coverage/
+
+# Composer runtime dependencies (highlight.php). Excluded on dev, but
+# vendor/ MUST be committed to main — WordPress deploys directly from
+# the main branch without a server-side build step.
+/vendor/

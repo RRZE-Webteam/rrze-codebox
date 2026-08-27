@@ -1,0 +1,49 @@
+{
+    "name": "rrze-codebox",
+    "version": "1.0.0-0",
+    "description": "Displays formatted, syntax-highlighted code blocks on WordPress sites.",
+    "license": "GPL-3.0-or-later",
+    "private": true,
+    "engines": {
+        "node": ">=20",
+        "npm": ">=10"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RRZE-Webteam/rrze-codebox",
+        "issues": "https://github.com/RRZE-Webteam/rrze-codebox/issues",
+        "clone": "git+https://github.com/RRZE-Webteam/rrze-codebox.git"
+    },
+    "author": {
+        "name": "RRZE-Webteam <webmaster@fau.de> (https://www.rrze.fau.de)",
+        "url": "https://www.wordpress.rrze.fau.de"
+    },
+    "compatibility": {
+        "wprequires": "6.8",
+        "wptestedup": "6.8",
+        "phprequires": "8.2"
+    },
+    "scripts": {
+        "readme": "node scripts/build-readme.js",
+
+        "version:dev":     "node scripts/build-version.js dev",
+        "version:prod":    "node scripts/build-version.js prod",
+        "version:release": "node scripts/build-version.js release",
+        "version:major":   "node scripts/build-version.js major",
+
+        "build":   "wp-scripts build",
+        "watch":   "wp-scripts start",
+        "dev":     "wp-scripts build && npm run version:dev && npm run readme",
+        "prod":    "wp-scripts build && npm run version:prod && npm run readme",
+        "release": "wp-scripts build && npm run version:release && npm run readme",
+
+        "lint:js":  "wp-scripts lint-js",
+        "lint:css": "wp-scripts lint-style",
+        "format":   "wp-scripts format",
+        "test:unit": "wp-scripts test-unit-js"
+    },
+
+    "devDependencies": {
+        "@wordpress/scripts": "^30.0.0"
+    }
+}

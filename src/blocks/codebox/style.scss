@@ -1,0 +1,17 @@
+/**
+ * Frontend + editor shared styling.
+ *
+ * Standard section 34: selectors MUST be scoped hierarchically below the
+ * plugin-slug wrapper (".rrze-codebox") and MUST NOT reset global elements.
+ * No avoidable inline styles are used in render.php (Standard section
+ * 31.4); everything visual lives here instead.
+ */
+.rrze-codebox {
+	&__title {
+		margin: 0 0 0.5em;
+	}
+
+	&--emphasized &__title {
+		font-weight: 700;
+	}
+}
