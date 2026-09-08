@@ -1,17 +1,156 @@
 /**
- * Frontend + editor shared styling.
- *
- * Standard section 34: selectors MUST be scoped hierarchically below the
- * plugin-slug wrapper (".rrze-codebox") and MUST NOT reset global elements.
- * No avoidable inline styles are used in render.php (Standard section
- * 31.4); everything visual lives here instead.
- */
-.rrze-codebox {
-	&__title {
-		margin: 0 0 0.5em;
-	}
+   * Frontend + editor shared styling.
+   * Scoped to .rrze-codebox — no global selectors.
+   * Colours follow the FAU design-system tokens (--fau-color-*).
+   * Fallback values are the raw FAU hex equivalents for themes
+   * that do not yet expose those custom properties.
+   */
 
-	&--emphasized &__title {
-		font-weight: 700;
-	}
+// Light theme
+$cb-light-border: var(--fau-color-blue-100, #04316A);
+$cb-light-header-bg: var(--fau-color-blue-100, #04316A);
+$cb-light-body-bg: #ffffff;
+$cb-light-text: var(--fau-color-text-primary, #000);
+$cb-light-header-text: var(--fau-color-heading-primary-contrast, #fff);
+$cb-light-line-num: var(--FAU-Col-FAU-Schwarz-37_5, #9e9e9e);
+
+// Blue theme
+$cb-dark-border: var(--fau-color-heading-primary-contrast, #fff);
+$cb-dark-header-bg: var(--fau-color-blue-100, #04316A);
+$cb-dark-body-bg: var(--fau-color-blue-100, #04316A);
+$cb-dark-text: var(--fau-color-heading-primary-contrast, #fff);
+$cb-dark-line-num: var(--fau-color-heading-primary-contrast, #fff);
+
+// Code font — FAU design-system token with monospace fallback chain
+$cb-font: var(--fau-font-family-code, "Source Code Pro", monospace);
+
+.rrze-codebox {
+  border: 1px solid $cb-light-border;
+  overflow: hidden;
+  font-size: var(--fau-font-size-paragraph-caption-01, 0.9rem);
+  line-height: 1.5;
+
+  // Header bar
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.50em 1em;
+    background: $cb-light-header-bg;
+    border-bottom: 1px solid $cb-light-border;
+  }
+
+  &__language-label {
+    font-family: $cb-font;
+    font-size: 1em;
+    color: $cb-light-header-text;
+  }
+
+  &__copy-button {
+    font-size: 1em;
+    padding: 0.2em 0.7em;
+    border: none;
+    background: transparent;
+    color: $cb-light-header-text;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(0, 0, 0, 0.06);
+      outline: 1px solid currentColor;
+      outline-offset: 1px;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  // Code area
+  &__pre {
+    margin: 0;
+    padding: 1em 1.25em;
+    overflow-x: auto;
+    background: $cb-light-body-bg;
+  }
+
+  &__code {
+    display: block;
+    font-family: $cb-font;
+    font-size: inherit;
+    color: $cb-light-text;
+    background: transparent;
+    white-space: pre;
+    tab-size: 4;
+  }
+
+  // Line numbers (injected span inside <pre>)
+  &__line-numbers-rows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1em 0.5em 1em 0.15em;
+    min-width: 2.5em;
+    text-align: right;
+    font-family: $cb-font;
+    font-size: inherit;
+    line-height: inherit;
+    color: $cb-light-line-num;
+    user-select: none;
+    pointer-events: none;
+
+    > span {
+      display: block;
+      counter-increment: line;
+
+      &::before {
+        content: counter(line);
+      }
+    }
+  }
+
+  &--line-numbers &__pre {
+    position: relative;
+    padding-left: 4em; // Platz für den Gutter
+    counter-reset: line calc(var(--cb-first-line, 1) - 1);
+  }
+
+  // Blue theme
+  &--dark {
+    border-color: $cb-dark-border;
+  }
+
+  &--dark &__header {
+    background: $cb-dark-header-bg;
+    border-bottom-color: $cb-dark-border;
+  }
+
+  &--dark &__language-label {
+    color: $cb-dark-text;
+  }
+
+  &--dark &__copy-button {
+    border-color: $cb-dark-border;
+    color: $cb-dark-text;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(255, 255, 255, 0.07);
+    }
+  }
+
+  &--dark &__pre {
+    background: $cb-dark-body-bg;
+  }
+
+  &--dark &__code {
+    color: $cb-dark-text;
+  }
+
+  &--dark &__line-numbers-rows {
+    color: $cb-dark-line-num;
+  }
+
 }

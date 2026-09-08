@@ -1,9 +1,19 @@
-/**
- * Editor-only styling. Scoped to this block's wrapper so it cannot leak
- * into other blocks or the editor chrome (Standard section 31.4 / 34).
- */
-.wp-block-rrze-codebox {
-	.description {
-		margin-top: 0.25em;
-	}
+// Editing area inside the block (PlainText = <textarea>)
+.rrze-codebox {
+  .block-editor-plain-text {
+    display:     block;
+    width:       100%;
+    padding:     1em 1.25em;
+    font-family: var(--fau-font-family-code, "Source Code Pro", monospace);
+    font-size:   1.2em;
+    line-height: 1.5;
+    color:       inherit;
+    background:  transparent;
+    white-space: pre;
+    tab-size:    4;
+    border:      none;
+    resize:      vertical;
+    box-shadow:  none;
+    outline:     none;
+  }
 }

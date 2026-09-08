@@ -1,48 +1,44 @@
 /**
  * Frontend script for rrze/codebox.
- *
- * Handles copy-to-clipboard for each block on the page.
- * Uses the Clipboard API with silent fallback — if the API is unavailable
- * the button simply does nothing (progressive enhancement).
+ * Handles copy-to-clipboard and line-number rendering.
  */
 
-document.addEventListener( 'DOMContentLoaded', initCopyButtons );
+document.addEventListener( 'DOMContentLoaded', () => {
+    initCopyButtons();
+} );
 
-function initCopyButtons(): void {
-    const buttons = document.querySelectorAll< HTMLButtonElement >(
-        '.rrze-codebox__copy-button'
-    );
 
-    buttons.forEach( ( button ) => {
-        button.addEventListener( 'click', handleCopy );
-    } );
-}
+// ─── Copy to clipboard
+
+  function initCopyButtons(): void {
+      const buttons = document.querySelectorAll< HTMLButtonElement >(
+          '.rrze-codebox__copy-button'
+      );
+      buttons.forEach( ( button ) => {
+          button.addEventListener( 'click', handleCopy );
+      } );
+  }
 
 function handleCopy( event: Event ): void {
-    const button = event.currentTarget as HTMLButtonElement;
+    const button  = event.currentTarget as HTMLButtonElement;
     const wrapper = button.closest( '.rrze-codebox' );
-    const codeEl = wrapper?.querySelector< HTMLElement >(
-        '.rrze-codebox__code'
-    );
+    const codeEl  = wrapper?.querySelector< HTMLElement >(
+        '.rrze-codebox__code' );
 
     if ( ! codeEl || ! navigator.clipboard ) {
         return;
     }
 
-    const code = codeEl.textContent ?? '';
-
     navigator.clipboard
-        .writeText( code )
+        .writeText( codeEl.textContent ?? '' )
         .then( () => markAsCopied( button ) )
-        .catch( () => {
-            // Clipboard write failed — no action needed.
-        } );
+        .catch( () => {} );
 }
 
 function markAsCopied( button: HTMLButtonElement ): void {
-    const copiedLabel = button.dataset.copiedLabel ?? 'Copied!';
+    const copiedLabel   = button.dataset.copiedLabel ?? 'Copied!';
     const originalLabel = button.getAttribute( 'aria-label' ) ?? '';
-    const originalText = button.textContent ?? '';
+    const originalText  = button.textContent ?? '';
 
     button.textContent = copiedLabel;
     button.setAttribute( 'aria-label', copiedLabel );
@@ -56,4 +52,3 @@ function markAsCopied( button: HTMLButtonElement ): void {
         button.disabled = false;
     }, 2000 );
 }
-

@@ -43,6 +43,18 @@ interface EditProps {
     isSelected: boolean;
 }
 
+const iconLight = (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9" fill="white" stroke="#C0CBDA" strokeWidth="1.5"/>
+    </svg>
+);
+
+const iconDark = (
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9" fill="#04316A" stroke="white" strokeWidth="1.5"/>
+    </svg>
+);
+
 export default function Edit({attributes, setAttributes, isSelected}: EditProps) {
     const {
         content,
@@ -58,9 +70,15 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
     const [previewHtml, setPreviewHtml] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+
     const blockProps = useBlockProps({
-        className: `rrze-codebox rrze-codebox--${theme}`,
+        className: [
+            'rrze-codebox',
+            `rrze-codebox--${theme}`,
+            showLineNumbers ? 'rrze-codebox--line-numbers' : '',
+        ].filter(Boolean).join(' '),
     });
+
 
     // Fetch highlighted preview from PHP — same logic as the frontend render.
     // AbortController cancels the previous request when content or language
@@ -100,18 +118,32 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         ([value, label]) => ({value, label})
     );
 
+    const iconLight = (
+        <svg width="24" height="24" viewBox="0 0 24 24"
+             aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="9" fill="white" stroke="#C0CBDA"
+                    strokeWidth="1.5"/>
+        </svg>
+    );
+
+    const iconDark = (
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="9" fill="#04316A"  stroke="white" strokeWidth="1.5"/>
+        </svg>
+    );
+
     return (
         <>
             <BlockControls>
                 <ToolbarGroup>
                     <ToolbarButton
-                        icon="visibility"
+                        icon={iconLight}
                         label={__('Light theme', 'rrze-codebox')}
                         isPressed={'light' === theme}
                         onClick={() => setAttributes({theme: 'light'})}
                     />
                     <ToolbarButton
-                        icon="hidden"
+                        icon={iconDark}
                         label={__('Dark theme', 'rrze-codebox')}
                         isPressed={'dark' === theme}
                         onClick={() => setAttributes({theme: 'dark'})}
@@ -183,12 +215,22 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                     />
                 ) : (
                     previewHtml && (
-                        <pre className="rrze-codebox__pre" aria-hidden={true}>
-                             <code
-                             className={`rrze-codebox__code hljs language-${language}`}
+                        <pre className="rrze-codebox__pre" aria-hidden={true}
+                             style={showLineNumbers ? {'--cb-first-line': firstLineNumber} as
+                                 React.CSSProperties : {}}>
+              {showLineNumbers && (() => {
+                  const count = Math.max(1, (previewHtml.match(/\n/g) ?? []).length + 1);
+                  return (
+                      <span className="rrze-codebox__line-numbers-rows" aria-hidden>
+                          {Array.from({length: count}).map((_, i) => <span key={i}/>)}
+                      </span>
+                  );
+              })()}
+                            <code
+                                className={`rrze-codebox__code hljs language-${language}`}
                                 dangerouslySetInnerHTML={{__html: previewHtml}}
-                             />
-                        </pre>
+                            />
+          </pre>
 
                     )
                 )}
@@ -202,3 +244,20 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
     );
 }
 
+function parseHighlightLines(spec: string): Set<number> {
+    const result = new Set<number>();
+    if (!spec.trim()) return result;
+    for (const part of spec.split(',')) {
+        const range = part.trim().split('-');
+        if (range.length === 2) {
+            for (let i = parseInt(range[0], 10); i <= parseInt(range[1],
+                10); i++) {
+                result.add(i);
+            }
+        } else {
+            const n = parseInt(part.trim(), 10);
+            if (!isNaN(n)) result.add(n);
+        }
+    }
+    return result;
+}
