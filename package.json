@@ -1,6 +1,6 @@
 {
     "name": "rrze-codebox",
-    "version": "1.0.0-0",
+    "version": "1.0.0-1",
     "description": "Displays formatted, syntax-highlighted code blocks on WordPress sites.",
     "license": "GPL-3.0-or-later",
     "private": true,
@@ -25,25 +25,28 @@
     },
     "scripts": {
         "readme": "node scripts/build-readme.js",
-
-        "version:dev":     "node scripts/build-version.js dev",
-        "version:prod":    "node scripts/build-version.js prod",
+        "version:dev": "node scripts/build-version.js dev",
+        "version:prod": "node scripts/build-version.js prod",
         "version:release": "node scripts/build-version.js release",
-        "version:major":   "node scripts/build-version.js major",
-
-        "build":   "wp-scripts build",
-        "watch":   "wp-scripts start",
-        "dev":     "wp-scripts build && npm run version:dev && npm run readme",
-        "prod":    "wp-scripts build && npm run version:prod && npm run readme",
+        "version:major": "node scripts/build-version.js major",
+        "build": "wp-scripts build",
+        "watch": "wp-scripts start",
+        "dev": "wp-scripts build && npm run version:dev && npm run readme",
+        "prod": "wp-scripts build && npm run version:prod && npm run readme",
         "release": "wp-scripts build && npm run version:release && npm run readme",
-
-        "lint:js":  "wp-scripts lint-js",
+        "lint:js": "wp-scripts lint-js",
         "lint:css": "wp-scripts lint-style",
-        "format":   "wp-scripts format",
+        "format": "wp-scripts format",
         "test:unit": "wp-scripts test-unit-js"
     },
-
     "devDependencies": {
-        "@wordpress/scripts": "^30.0.0"
+        "@wordpress/api-fetch": "^7.54.0",
+        "@wordpress/block-editor": "^17.0.0",
+        "@wordpress/blocks": "^15.27.0",
+        "@wordpress/components": "^40.0.0",
+        "@wordpress/element": "^8.6.0",
+        "@wordpress/i18n": "^6.27.0",
+        "@wordpress/scripts": "^30.0.0",
+        "@types/react": "^18.3.1"
     }
 }

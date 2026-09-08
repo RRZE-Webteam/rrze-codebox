@@ -1,30 +1,43 @@
-=== RRZE Example ===
+=== RRZE CodeBox ===
 Contributors: rrzewebteam
-Tags: block, rrze, blueprint
+Tags: block, syntax highlighting, code, rrze
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 8.2
-Stable tag: 1.0.0-0
+Stable tag: 1.0.0-1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Blueprint/reference plugin implementing the RRZE WordPress Plugin Engineering Standard, including a block-first content integration example.
+Displays syntax-highlighted code blocks in posts and pages via a block. Server-side highlighting — no flash of unstyled code.
 
 == Description ==
 
-This plugin is a compliance blueprint, not a finished feature. It provides
-the mandatory RRZE plugin architecture (namespaced OOP, Multisite-aware
-configuration resolver, capability-gated settings screens, one dynamic
-block) so a new project starts from a structure that already satisfies the
-RRZE WordPress Plugin Engineering Standard.
+RRZE CodeBox adds a single block (`rrze/codebox`) for editors who need to
+embed formatted source code in posts and pages.
+
+Syntax highlighting runs server-side using highlight.php — no client-side
+JavaScript highlighting engine, no flash of unstyled code.
+
+Features:
+
+* Syntax highlighting for 13 languages (C, C++, C#, CSS, HTML/XML, Java, JavaScript, JSON, Perl, PHP, Python, SCSS, SQL)
+* Light and dark (FAU Blue) theme, switchable per block
+* Optional line numbers with configurable start number
+* Line highlighting (range syntax: 1,5,10-20)
+* Language label display toggle
+* URL-to-link conversion in code
+* Copy-to-clipboard button (no jQuery)
+
+No shortcodes. No global settings page. All configuration lives in the block toolbar and inspector controls.
 
 == Installation ==
 
-1. Upload or `git clone` into `wp-content/plugins/`.
-2. Run `npm ci && npm run build`.
-3. Activate the plugin.
+1. Clone the repository into `wp-content/plugins/rrze-codebox/`.
+2. Run `composer install` to install PHP dependencies.
+3. Run `npm ci && npm run build` to build block assets.
+4. Activate the plugin on a single site or network-activate it on Multisite.
 
 == Changelog ==
 
 = 1.0.0 =
-* Initial blueprint scaffold.
+* Initial release.

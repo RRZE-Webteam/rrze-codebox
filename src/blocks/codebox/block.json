@@ -6,7 +6,7 @@
     "title": "CodeBox",
     "category": "rrze",
     "icon": "editor-code",
-    "description": "Displays syntax-highlighted code with optional line numbers, line highlighting, and a copy button.",
+    "description": "Displays syntax-highlighted code",
     "keywords": ["code", "syntax", "highlight", "programming"],
     "textdomain": "rrze-codebox",
     "attributes": {

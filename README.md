@@ -1,30 +1,29 @@
 [![Aktuelle Version](https://img.shields.io/github/package-json/v/rrze-webteam/rrze-codebox/main?label=Version)](https://github.com/RRZE-Webteam/rrze-codebox) [![Release Version](https://img.shields.io/github/v/release/rrze-webteam/rrze-codebox?label=Release+Version)](https://github.com/rrze-webteam/rrze-codebox/releases/) [![GitHub License](https://img.shields.io/github/license/rrze-webteam/rrze-codebox)](https://github.com/RRZE-Webteam/rrze-codebox) [![GitHub issues](https://img.shields.io/github/issues/RRZE-Webteam/rrze-codebox)](https://github.com/RRZE-Webteam/rrze-codebox/issues)
 
-# RRZE Codebox
+# RRZE CodeBox
 
-**This repository is a blueprint, not a finished product.** It is a working
-scaffold that satisfies the RRZE WordPress Plugin Engineering Standard
-(v1.15) end to end, including one dynamic block. Use it as the starting
-point for a real plugin: rename the slug/namespace/text domain throughout
-(see `doc/architecture.md`), replace the placeholder block with the actual
-feature, and delete the optional modules (network API key, external API
-client) that the real project does not need.
-
-Short description: reference implementation of the mandatory RRZE plugin
-architecture, used to bootstrap new RRZE-CMS plugins that need a block.
+Displays syntax-highlighted code blocks in posts and pages via a WordPress
+block. Highlighting runs server-side using
+[highlight.php](https://github.com/scrivo/highlight.php) — no client-side
+JavaScript highlighting engine, no flash of unstyled code.
 
 ## Purpose
 
-Provide a compliant, minimal starting architecture — bootstrap, config
-resolver, one settings screen per level (site + network), one dynamic
-block — so a new plugin begins from a structure that already satisfies the
-Standard, instead of retrofitting compliance later.
+RRZE CodeBox provides a single block (`rrze/codebox`) for editors
+who need to embed formatted source code. Supported features in v1:
+
+- Syntax highlighting for 13 languages (server-side, via highlight.php)
+- Light and dark (FAU Blue) theme, switchable per block
+- Optional line numbers with configurable start number
+- Line highlighting (range syntax: `1,5,10-20`)
+- Language label display toggle
+- URL-to-link conversion in code
+- Copy-to-clipboard button (vanilla JS, no jQuery)
+
+No shortcodes. No global settings page. All configuration lives in the
+block's toolbar and inspector controls.
 
 ## User documentation
-
-Placeholder: replace with the canonical, non-technical, web-hosted
-end-user documentation URL for the real plugin before release (Standard
-section 1.2.4). Repository-only documentation is not sufficient.
 
 `USER_DOCUMENTATION_URL = <to be defined>`
 
@@ -33,136 +32,121 @@ section 1.2.4). Repository-only documentation is not sufficient.
 `MAINTAINER = <named, reachable person or team>`
 `USER_SUPPORT_CONTACT = <to be defined>`
 
-A one-time AI-generated implementation without a durable maintainer and
-support responsibility is not acceptable for production (Standard section
-1.1/78).
-
 ## Requirements
 
 - WordPress 6.8+
 - PHP 8.2+
 - Node.js 20+ / npm 10+ for building block assets
+- Composer for PHP dependencies
 
 ## Installation
 
 ```bash
 git clone https://github.com/RRZE-Webteam/rrze-codebox.git
 cd rrze-codebox
+composer install
 npm ci
 npm run build
 ```
 
-Activate the plugin on a single site, or network-activate it if the
-project's `Network:` header decision (Standard section 5) requires it. This
-blueprint does not set `Network: true`; it supports per-site activation on
-Multisite as well as network activation of its hooks.
+Activate the plugin on a single site or network-activate it on Multisite.
 
 ## Configuration
 
-Site-level settings: **Settings → RRZE Codebox** (capability
-`manage_options`).
+All configuration is per block, set in the block toolbar and inspector
+controls. There is no global settings page in v1.
 
-Network-level settings (Multisite only): **Network Admin → Settings →
-RRZE Codebox** (capability `manage_network_options`).
-
-Resolution order implemented in `includes/Config/Settings.php`:
-runtime/filter override → site option → network option → default.
+| Control | Location | Description |
+| --- | --- | --- |
+| Light / Dark theme | Block Toolbar | Switches between FAU Light and FAU Blue theme |
+| Language | Inspector | Selects the syntax highlighting language |
+| Show line numbers | Inspector | Toggles line number display |
+| First line number | Inspector | Sets the starting line number (default: 1) |
+| Highlight lines | Inspector | Specifies lines to highlight (`1,5,10-20`) |
+| Show language label | Inspector | Toggles the language label in the block header |
+| Make URLs clickable | Inspector | Converts URLs in code to clickable links |
 
 ## Multisite behavior
 
-Fully Multisite-capable, per Standard section 1.2.1/14: site-specific
-display settings are stored with `get_option()`/`update_option()`;
-infrastructure-wide configuration (the optional network API key) is stored
-as a network option and is never exposed or editable at site level.
+Fully Multisite-capable. Block attributes are stored per post and are
+site-specific by nature. No network-wide configuration exists in v1.
 
 ## Development
 
-Versioning follows the RRZE build/version process (`Major.Minor.Patch-Build`,
-e.g. `1.0.0-0`; see `doc/architecture.md` for why this uses a hyphen instead
-of the underscore in the Leitfaden's own examples):
+Versioning follows `Major.Minor.Patch-Build` (e.g. `1.0.0-1`; hyphen instead
+of the underscore in the Leitfaden's examples — see `doc/architecture.md`):
 
 | Command | Assets | Version effect | Typical use |
 | --- | --- | --- | --- |
 | `npm run watch` | unminified, source maps, rebuilds on change | none | during active development |
-| `npm run build` | unminified, source maps | none | just (re)build assets, e.g. after `npm ci` |
-| `npm run dev` | unminified, source maps | `Build` +1 | mark a new development snapshot |
-| `npm run prod` | minified, no source maps | `Patch` +1, `Build` → 0 | before a commit/deployment on `dev` |
-| `npm run release` | minified, no source maps | `Minor` +1, `Patch`/`Build` → 0 | official release, before merging `dev` → `main` |
-| `npm run version:major` | — (no build) | `Major` +1, rest → 0 | manual only, for a breaking change — never automated |
+| `npm run build` | unminified, source maps | none | just (re)build assets |
+| `npm run dev` | unminified, source maps | `Build` +1 | before a commit on `dev` |
+| `npm run prod` | minified, no source maps | `Patch` +1, `Build` → 0 | before a deployable commit |
+| `npm run release` | minified, no source maps | `Minor` +1, `Patch`/`Build` → 0 | before merging `dev` → `main` |
+| `npm run version:major` | — | `Major` +1, rest → 0 | manual only, breaking change |
 
-`npm run lint:js` / `npm run lint:css` / `npm run format` run the usual
-`wp-scripts` checks. `scripts/build-version.js` and `scripts/build-readme.js`
-keep `package.json`, the plugin header, and `readme.txt` in sync
-automatically as part of `dev`/`prod`/`release` (Standard section 39.7) —
-they are not meant to be edited by hand.
+`scripts/build-version.js` and `scripts/build-readme.js` keep `package.json`,
+the plugin header, and `readme.txt` in sync automatically.
 
 Before a production release, run the plugin through **WordPress Plugin
-Check (PCP)** and resolve all reported errors (Standard section 54.1).
+Check (PCP)** and resolve all reported errors.
 
 ## Accessibility
 
-Target: WCAG 2.2 AA generally, WCAG 2.2 AAA for the settings-page form
-workflows (Standard section 2.2). The block and settings screens use
-native HTML controls, associated labels, and visible focus; no information
-is conveyed by color alone. Re-verify this whenever the real feature
-replaces the placeholder block markup.
+Target: WCAG 2.2 AA. The copy button and theme toggle are keyboard-operable
+with visible focus indicators. The code block output uses semantic HTML.
+Both themes have been designed against FAU color guidelines with sufficient
+contrast. Re-verify after any CSS changes.
 
 ## External services
 
-None by default. `includes/API/Client.php` is optional scaffolding for a
-future external API integration — if kept and used, document here:
-provider, purpose, transmitted data, authentication method, timeout and
-failure behavior, privacy implications, and whether data leaves FAU
-infrastructure (Standard section 7.1/24/44). If not used, delete the file.
+None. `highlight.php` (`scrivo/highlight.php`) is a Composer package bundled
+with the plugin and runs entirely server-side. No data is sent to any external
+host.
 
 ## Third-party runtime resources and consent
 
-None. No fonts, scripts, or styles are loaded from third-party hosts or
-public CDNs (Standard section 24.1). All block assets are built and shipped
-locally by `wp-scripts`.
+None. No fonts, scripts, or styles are loaded from third-party hosts or public
+CDNs. All block assets are built and shipped locally.
 
 ## Cookies and browser storage
 
-None. This blueprint sets no cookies and uses no `localStorage` or
-`sessionStorage`. Document any addition here per Standard section 43.1
-(name, purpose, lifetime, consent requirement) before release.
+None. This plugin sets no cookies and uses no `localStorage` or
+`sessionStorage`.
 
 ## Data storage
 
+Block attributes are stored as block comment metadata in post content by
+WordPress. No plugin-specific database options or tables are created.
+
 | Data | Storage | Scope |
 | --- | --- | --- |
-| Display mode | `rrze_codebox_settings` (site option) | Per site |
-| Schema version | `rrze_codebox_schema_version` (site option) | Per site |
-| Network toggle | `rrze_codebox_network_settings` (network option) | Network-wide |
-| Optional API key | `rrze_settings` (managed by the `rrze-settings` plugin) | Network-wide |
+| Code content | Block attribute in post content | Per post |
+| Language, theme, display options | Block attributes in post content | Per post |
 
-See `uninstall.php` for what is deleted vs. intentionally retained on
-plugin removal.
+See `uninstall.php` — no plugin-specific options are created, so no cleanup
+is required beyond deactivation.
 
 ## Hooks and APIs
 
-- Filter `rrze_codebox_config_{key}`: override any resolved configuration
-  value at runtime.
+- REST route `POST /rrze-codebox/v1/highlight`: accepts `code` and `language`,
+  returns highlighted HTML. Used by the block editor for live preview.
+  Requires `edit_posts` capability.
 - Filter `rrze_codebox_documentation_url`: returns the canonical end-user
   documentation URL shown as plugin row meta; empty by default.
-- Block `rrze/example-block`: dynamic, server-rendered via `render.php`.
+- Block `rrze/codebox`: dynamic, server-rendered via `render.php`.
 
 ## Release process
 
-1. Develop against `dev`; never commit directly to `main` (Standard
-   section 57). Use `npm run watch` / `npm run dev` for day-to-day work;
-   neither commit is required for those (see table above).
-2. Before committing a deployable state on `dev`: `npm run prod`, then
-   lint and Plugin Check; commit the result (bumps `Patch`, resets `Build`).
-3. For an official release: `npm run release` (bumps `Minor`, resets
-   `Patch`/`Build`), review the diff, update the changelog, commit on `dev`.
-4. Merge the tested, fully built `dev` state into `main`. `main` must be
-   directly executable by RRZE's Git-based updater without a
-   production-server build step (Standard section 39).
-5. A breaking change additionally requires `npm run version:major`, run
-   deliberately and reviewed on its own — never as part of the automated
-   `dev`/`prod`/`release` chain (Standard section 6).
+1. Develop against `dev`; never commit directly to `main`.
+2. Before a commit on `dev`: `npm run dev` (bumps `Build`).
+3. Before a deployable state on `dev`: `npm run prod` (bumps `Patch`).
+4. For an official release: `npm run release` (bumps `Minor`), update
+   changelog, commit on `dev`.
+5. Merge the tested, fully built `dev` state into `main`. Add built assets
+   and vendor directory: `git add -f build/ vendor/`.
+6. `main` must be directly executable without a production-server build step.
 
 ## Maintainers
 
-`<to be defined per project>`
+`<to be defined>`

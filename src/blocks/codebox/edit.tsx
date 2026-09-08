@@ -16,7 +16,6 @@ import {
 } from '@wordpress/components';
 import {useState, useEffect} from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import type {BlockEditProps} from '@wordpress/blocks';
 
 // Provided by Blocks.php via wp_localize_script.
 declare const rrzeCodeboxData: {
@@ -38,10 +37,13 @@ interface HighlightResponse {
     html: string;
 }
 
-export default function Edit({
-                                 attributes,
-                                 setAttributes,
-                             }: BlockEditProps<Attributes>) {
+interface EditProps {
+    attributes: Attributes;
+    setAttributes: (attrs: Partial<Attributes>) => void;
+    isSelected: boolean;
+}
+
+export default function Edit({attributes, setAttributes, isSelected}: EditProps) {
     const {
         content,
         language,
@@ -123,15 +125,13 @@ export default function Edit({
                         label={__('Language', 'rrze-codebox')}
                         value={language}
                         options={languageOptions}
-                        onChange={(value) =>
-                            setAttributes({language: value})
+                        onChange={(value) => setAttributes({language: value})
                         }
                     />
                     <ToggleControl
                         label={__('Show line numbers', 'rrze-codebox')}
                         checked={showLineNumbers}
-                        onChange={(value) =>
-                            setAttributes({showLineNumbers: value})
+                        onChange={(value) => setAttributes({showLineNumbers: value})
                         }
                     />
                     {showLineNumbers && (
@@ -139,13 +139,12 @@ export default function Edit({
                             label={__('First line number', 'rrze-codebox')}
                             value={firstLineNumber}
                             min={1}
-                            onChange={(value) =>
-                                setAttributes({
-                                    firstLineNumber: parseInt(
-                                        value ?? '1',
-                                        10
-                                    ),
-                                })
+                            onChange={(value) => setAttributes({
+                                firstLineNumber: parseInt(
+                                    value ?? '1',
+                                    10
+                                ),
+                            })
                             }
                         />
                     )}
@@ -175,31 +174,28 @@ export default function Edit({
             </InspectorControls>
 
             <div {...blockProps}>
-                <PlainText
-                    value={content}
-                    onChange={(value) =>
-                        setAttributes({content: value})
-                    }
-                    placeholder={__(
-                        'Paste or type your code here…', 'rrze-codebox'
-                    )}
-                    aria-label={__('Code input', 'rrze-codebox')}
-                />
+                {isSelected ? (
+                    <PlainText
+                        value={content}
+                        onChange={(value) => setAttributes({content: value})}
+                        placeholder={__('Paste or type your code here…', 'rrze-codebox')}
+                        aria-label={__('Code input', 'rrze-codebox')}
+                    />
+                ) : (
+                    previewHtml && (
+                        <pre className="rrze-codebox__pre" aria-hidden={true}>
+                             <code
+                             className={`rrze-codebox__code hljs language-${language}`}
+                                dangerouslySetInnerHTML={{__html: previewHtml}}
+                             />
+                        </pre>
+
+                    )
+                )}
                 {isLoading && (
-                    <p
-                        className="rrze-codebox__editor-loading"
-                        aria-live="polite"
-                    >
+                    <p className="rrze-codebox__editor-loading" aria-live="polite">
                         {__('Updating preview…', 'rrze-codebox')}
                     </p>
-                )}
-                {previewHtml && !isLoading && (
-                    <div
-                        className="rrze-codebox__editor-preview"
-                        aria-hidden="true"
-                        // Safe: output comes from our own highlight.php endpoint.
-                        dangerouslySetInnerHTML={{__html: previewHtml}}
-                    />
                 )}
             </div>
         </>
