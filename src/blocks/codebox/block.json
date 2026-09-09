@@ -39,9 +39,17 @@
             "type": "boolean",
             "default": true
         },
-        "makeUrlsClickable": {
+        "syntaxHighlighting": {
             "type": "boolean",
-            "default": false
+            "default": true
+        },
+        "caption": {
+            "type": "string",
+            "default": ""
+        },
+        "captionUrl": {
+            "type": "string",
+            "default": ""
         }
     },
     "supports": {

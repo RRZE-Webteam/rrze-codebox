@@ -4,16 +4,16 @@
     display:     block;
     width:       100%;
     padding:     1em 1.25em;
-    font-family: var(--fau-font-family-code, "Source Code Pro", monospace);
-    font-size:   1.2em;
+    font-family: "Source Code Pro", monospace;
+    font-size:   1em;
     line-height: 1.5;
     color:       inherit;
     background:  transparent;
     white-space: pre;
     tab-size:    4;
-    border:      none;
     resize:      vertical;
     box-shadow:  none;
     outline:     none;
+    border: 0.8px solid #dedede;
   }
 }

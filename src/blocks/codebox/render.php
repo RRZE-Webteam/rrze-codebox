@@ -29,7 +29,9 @@ $highlightLines = isset($attributes['highlightLines']) ? (string)
 $attributes['highlightLines'] : '';
 $showLanguage = !isset($attributes['showLanguage']) || (bool)
         $attributes['showLanguage'];
-$makeUrlsClickable = !empty($attributes['makeUrlsClickable']);
+$syntaxHighlighting = !isset($attributes['syntaxHighlighting']) || (bool) $attributes['syntaxHighlighting'];
+$caption    = isset($attributes['caption']) ? (string) $attributes['caption'] : '';
+$captionUrl = isset($attributes['captionUrl']) ? esc_url_raw($attributes['captionUrl']) : '';
 
 if (!Languages::isValid($language)) {
     $language = 'javascript';
@@ -37,11 +39,9 @@ if (!Languages::isValid($language)) {
 
 // --- Highlighting ---
 
-$highlightedCode = Highlighter::highlight($code, $language);
-
-if ($makeUrlsClickable) {
-    $highlightedCode = make_clickable($highlightedCode);
-}
+$highlightedCode = $syntaxHighlighting
+        ? Highlighter::highlight($code, $language)
+        : esc_html($code);
 
 // --- Language label ---
 
@@ -56,7 +56,7 @@ $wrapperAttributes = get_block_wrapper_attributes([
                 'rrze-codebox--' . $theme,
                 $showLineNumbers ? 'rrze-codebox--line-numbers' : '',
         ])),
-        'style' => $showLineNumbers ? '--cb-first-line:' . $firstLineNumber . ';' : '',
+        'style' => $showLineNumbers ? '--cb-first-line: ' . $firstLineNumber . ';' : '',
 
 ]);
 ?>
@@ -75,7 +75,11 @@ $wrapperAttributes = get_block_wrapper_attributes([
                 class="rrze-codebox__copy-button"
                 aria-label="<?php esc_attr_e('Copy code to clipboard', 'rrze-codebox'); ?>"
                 data-copied-label="<?php esc_attr_e('Copied!', 'rrze-codebox'); ?>"
-        ><?php esc_html_e('Copy', 'rrze-codebox'); ?></button>
+        >
+            <span class="rrze-codebox__copy-label">
+                <?php esc_html_e('Copy', 'rrze-codebox'); ?>
+            </span>
+        </button>
 
     </div>
 
@@ -91,13 +95,24 @@ $wrapperAttributes = get_block_wrapper_attributes([
     ?>
     <pre
             class="rrze-codebox__pre"
-            data-first-line="<?php echo esc_attr((string) $firstLineNumber); ?>"
+            data-first-line="<?php echo esc_attr((string)$firstLineNumber); ?>"
             data-highlight-lines="<?php echo esc_attr($highlightLines); ?>"
     ><?php echo $gutter; ?><code class="rrze-codebox__code hljs language-<?php echo
         esc_attr($language);
         ?>"><?php echo $highlightedCode; ?></code></pre>
 
-
+    <?php if ($caption || $captionUrl) : ?>
+    <footer class="rrze-codebox__caption">
+        <?php if ($caption) : ?>
+            <span class="rrze-codebox__caption-text"><?php echo esc_html($caption); ?></span>
+        <?php endif; ?>
+        <?php if ($captionUrl) : ?>
+            <a href="<?php echo esc_url($captionUrl); ?>" class="rrze-codebox__caption-src" rel="noopener noreferrer" target="_blank">
+                <?php esc_html_e('Source', 'rrze-codebox'); ?>
+            </a>
+        <?php endif; ?>
+    </footer>
+    <?php endif; ?>
 
 </div>
 

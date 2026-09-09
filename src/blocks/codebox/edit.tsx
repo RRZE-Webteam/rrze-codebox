@@ -30,7 +30,9 @@ interface Attributes {
     firstLineNumber: number;
     highlightLines: string;
     showLanguage: boolean;
-    makeUrlsClickable: boolean;
+    syntaxHighlighting: boolean;
+    caption: string;
+    captionUrl: string;
 }
 
 interface HighlightResponse {
@@ -64,7 +66,9 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         firstLineNumber,
         highlightLines,
         showLanguage,
-        makeUrlsClickable,
+        syntaxHighlighting,
+        caption,
+        captionUrl,
     } = attributes;
 
     const [previewHtml, setPreviewHtml] = useState<string>('');
@@ -84,7 +88,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
     // AbortController cancels the previous request when content or language
     // changes before the debounce fires, preventing race conditions.
     useEffect(() => {
-        if (!content.trim()) {
+        if (!syntaxHighlighting || !content.trim()) {
             setPreviewHtml('');
             return;
         }
@@ -112,24 +116,10 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
             clearTimeout(timeout);
             controller.abort();
         };
-    }, [content, language]);
+    }, [content, language, syntaxHighlighting]);
 
     const languageOptions = Object.entries(rrzeCodeboxData.languages).map(
         ([value, label]) => ({value, label})
-    );
-
-    const iconLight = (
-        <svg width="24" height="24" viewBox="0 0 24 24"
-             aria-hidden="true" focusable="false">
-            <circle cx="12" cy="12" r="9" fill="white" stroke="#C0CBDA"
-                    strokeWidth="1.5"/>
-        </svg>
-    );
-
-    const iconDark = (
-        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="12" cy="12" r="9" fill="#04316A"  stroke="white" strokeWidth="1.5"/>
-        </svg>
     );
 
     return (
@@ -180,13 +170,13 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                             }
                         />
                     )}
-                    <TextControl
-                        label={__('Highlight lines', 'rrze-codebox')}
-                        help={__('Example: 1,5,10-20', 'rrze-codebox')}
-                        value={highlightLines}
-                        onChange={(value) =>
-                            setAttributes({highlightLines: value})
-                        }
+                    <ToggleControl
+                        label={__('Syntax highlighting', 'rrze-codebox')}
+                        checked={syntaxHighlighting}
+                        onChange={(value) => setAttributes({
+                            syntaxHighlighting:
+                            value
+                        })}
                     />
                     <ToggleControl
                         label={__('Show language label', 'rrze-codebox')}
@@ -195,12 +185,18 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                             setAttributes({showLanguage: value})
                         }
                     />
-                    <ToggleControl
-                        label={__('Make URLs clickable', 'rrze-codebox')}
-                        checked={makeUrlsClickable}
-                        onChange={(value) =>
-                            setAttributes({makeUrlsClickable: value})
-                        }
+                </PanelBody>
+                <PanelBody title={__('Caption', 'rrze-codebox')} initialOpen={false}>
+                    <TextControl
+                        label={__('Description', 'rrze-codebox')}
+                        value={caption}
+                        onChange={(value) => setAttributes({caption: value})}
+                    />
+                    <TextControl
+                        label={__('Source URL', 'rrze-codebox')}
+                        value={captionUrl}
+                        type="url"
+                        onChange={(value) => setAttributes({captionUrl: value})}
                     />
                 </PanelBody>
             </InspectorControls>
@@ -213,25 +209,36 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         placeholder={__('Paste or type your code here…', 'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
                     />
-                ) : (
+                ) : syntaxHighlighting ? (
                     previewHtml && (
-                        <pre className="rrze-codebox__pre" aria-hidden={true}
-                             style={showLineNumbers ? {'--cb-first-line': firstLineNumber} as
-                                 React.CSSProperties : {}}>
-              {showLineNumbers && (() => {
-                  const count = Math.max(1, (previewHtml.match(/\n/g) ?? []).length + 1);
-                  return (
-                      <span className="rrze-codebox__line-numbers-rows" aria-hidden>
-                          {Array.from({length: count}).map((_, i) => <span key={i}/>)}
-                      </span>
-                  );
-              })()}
+                        <pre
+                            className="rrze-codebox__pre"
+                            aria-hidden={true}
+                            style={showLineNumbers ? {'--cb-first-line': firstLineNumber} as
+                                React.CSSProperties : {}}
+                        >
+                              {showLineNumbers && (() => {
+                                  const count = Math.max(1, (previewHtml.match(/\n/g) ?? []).length +
+                                      1);
+                                  return (
+                                      <span className="rrze-codebox__line-numbers-rows" aria-hidden>
+                                          {Array.from({length: count}).map((_, i) => <span key={i}/>)}
+                                      </span>
+                                  );
+                              })()}
                             <code
                                 className={`rrze-codebox__code hljs language-${language}`}
                                 dangerouslySetInnerHTML={{__html: previewHtml}}
                             />
-          </pre>
-
+                          </pre>
+                    )
+                ) : (
+                    content && (
+                        <pre className="rrze-codebox__pre">
+                              <code className={`rrze-codebox__code language-${language}`}>
+                                  {content}
+                              </code>
+                          </pre>
                     )
                 )}
                 {isLoading && (
@@ -239,25 +246,23 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         {__('Updating preview…', 'rrze-codebox')}
                     </p>
                 )}
+                {(caption || captionUrl) && (
+                    <footer className="rrze-codebox__caption">
+                        {caption && <span className="rrze-codebox__caption-text">{caption}</span>}
+                        {captionUrl && (
+                            <a
+                                href={captionUrl}
+                                className="rrze-codebox__caption-src"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                {__('Source', 'rrze-codebox')}
+                            </a>
+                        )}
+                    </footer>
+                )}
             </div>
         </>
     );
 }
 
-function parseHighlightLines(spec: string): Set<number> {
-    const result = new Set<number>();
-    if (!spec.trim()) return result;
-    for (const part of spec.split(',')) {
-        const range = part.trim().split('-');
-        if (range.length === 2) {
-            for (let i = parseInt(range[0], 10); i <= parseInt(range[1],
-                10); i++) {
-                result.add(i);
-            }
-        } else {
-            const n = parseInt(part.trim(), 10);
-            if (!isNaN(n)) result.add(n);
-        }
-    }
-    return result;
-}
