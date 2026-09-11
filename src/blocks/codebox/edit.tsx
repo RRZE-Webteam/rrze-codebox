@@ -86,8 +86,6 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
     } = attributes;
 
     const [previewHtml, setPreviewHtml] = useState<string>('');
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
 
     const blockProps = useBlockProps({
         className: [
@@ -108,7 +106,6 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         }
 
         const controller = new AbortController();
-        setIsLoading(true);
 
         const timeout = setTimeout(() => {
             apiFetch<HighlightResponse>({
@@ -123,7 +120,6 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         setPreviewHtml('');
                     }
                 })
-                .finally(() => setIsLoading(false));
         }, 400);
 
         return () => {
@@ -158,9 +154,6 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                                 fontSize: '0.9em',
                                 fontWeight: 500,
                                 lineHeight: 1,
-                                border: '1px solid currentColor',
-                                borderRadius: '2px',
-                                padding: '10px 10px',
                             }}>
                             {languageOptions.find(o => o.value === language)?.label ?? language}
                             </span>
@@ -240,59 +233,51 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                     <PlainText
                         value={content}
                         onChange={(value) => setAttributes({content: value})}
-                        placeholder={__('Paste or type your code here…', 'rrze-codebox')}
+                        placeholder={__('Paste or type your code here…',
+                            'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
+                        style={{minHeight: `${Math.max(3,
+                                content.split('\n').length) * 1.5}em`}}
                     />
                 ) : (
-                    <>
-                        <div className="rrze-codebox__header">
-                            {showLanguage && (
-                                <span className="rrze-codebox__language-label">
-                          {languageOptions.find(o => o.value === language)?.label ?? language}
-                      </span>
-                            )}
-                        </div>
-                        <div className="rrze-codebox__body">
-                            {syntaxHighlighting ? (
-                                previewHtml && (
-                                    <pre
-                                        className="rrze-codebox__pre"
-                                        style={showLineNumbers ? {'--cb-first-line': firstLineNumber} as
-                                            React.CSSProperties : {}}
-                                    >
-                              {showLineNumbers && (() => {
-                                  const count = Math.max(1, (previewHtml.match(/\n/g) ??
-                                      []).length + 1);
-                                  return (
-                                      <span className="rrze-codebox__line-numbers-rows"
-                                            aria-hidden>
-                                          {Array.from({length: count}).map((_, i) => <span
-                                              key={i}/>)}
-                                      </span>
-                                  );
-                              })()}
-                                        <code
-                                            className={`rrze-codebox__code hljs language-${language}`}
-                                            dangerouslySetInnerHTML={{__html: previewHtml}}
-                                        />
-                          </pre>
-                                )
-                            ) : (
-                                content && (
-                                    <pre className="rrze-codebox__pre">
-                              <code className={`rrze-codebox__code language-${language}`}>
-                                  {content}
-                              </code>
-                          </pre>
-                                )
-                            )}
-                        </div>
-                    </>
-                )}
-                {isLoading && (
-                    <p className="rrze-codebox__editor-loading" aria-live="polite">
-                        {__('Updating preview…', 'rrze-codebox')}
-                    </p>
+                    <div className="rrze-codebox__body">
+                        {syntaxHighlighting ? (
+                            previewHtml && (
+                                <pre
+                                    className="rrze-codebox__pre"
+                                    style={showLineNumbers ? {'--cb-first-line':
+                                        firstLineNumber} as React.CSSProperties : {}}
+                                >
+                          {showLineNumbers && (() => {
+                              const count = Math.max(1,
+                                  (previewHtml.match(/\n/g) ?? []).length + 1);
+                              return (
+                                  <span
+                                      className="rrze-codebox__line-numbers-rows" aria-hidden>
+                                      {Array.from({length:
+                                          count}).map((_, i) => <span key={i}/>)}
+                                  </span>
+                              );
+                          })()}
+                                    <code
+                                        className={`rrze-codebox__code hljs        
+  language-${language}`}
+                                        dangerouslySetInnerHTML={{__html:
+                                            previewHtml}}
+                                    />
+                      </pre>
+                            )
+                        ) : (
+                            content && (
+                                <pre className="rrze-codebox__pre">
+                          <code className={`rrze-codebox__code           
+  language-${language}`}>
+                              {content}
+                          </code>
+                      </pre>
+                            )
+                        )}
+                    </div>
                 )}
             </div>
         </>

@@ -4,14 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RRZE CodeBox 1.0.0-5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/rrze-codebox\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2026-09-11T11:37:21+00:00\n"
+"PO-Revision-Date: 2026-09-11 13:44+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE@formal\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-11T11:37:21+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"X-Generator: Poedit 3.9\n"
 "X-Domain: rrze-codebox\n"
 
 #. Plugin Name of the plugin
@@ -27,7 +28,7 @@ msgstr ""
 #. Description of the plugin
 #: rrze-codebox.php
 msgid "Adds a block for displaying syntax-highlighted code"
-msgstr ""
+msgstr "Fügt einen Block zur Anzeige von Code mit Syntaxhervorhebung hinzu"
 
 #. Author of the plugin
 #: rrze-codebox.php
@@ -41,19 +42,19 @@ msgstr ""
 
 #: build/blocks/codebox/render.php:76
 msgid "Copy code to clipboard"
-msgstr ""
+msgstr "Code in die Zwischenablage kopieren"
 
 #: build/blocks/codebox/render.php:77
 msgid "Copied!"
-msgstr ""
+msgstr "Kopiert!"
 
 #: build/blocks/codebox/render.php:88
 msgid "Copy"
-msgstr ""
+msgstr "Kopieren"
 
 #: build/blocks/codebox/render.php:120
 msgid "Source"
-msgstr ""
+msgstr "Quelle"
 
 #: includes/Blocks/Blocks.php:46
 msgid "RRZE"
@@ -114,70 +115,77 @@ msgstr ""
 #. translators: 1: Current PHP version. 2: Required PHP version.
 #: rrze-codebox.php:73
 #, php-format
-msgid "RRZE CodeBox requires PHP %2$s or higher. Your server is running PHP %1$s."
+msgid ""
+"RRZE CodeBox requires PHP %2$s or higher. Your server is running PHP %1$s."
 msgstr ""
+"RRZE CodeBox erfordert PHP %2$s oder höher. Auf Ihrem Server läuft PHP "
+"%1$s."
 
 #. translators: 1: Current WordPress version. 2: Required WordPress version.
 #: rrze-codebox.php:82
 #, php-format
-msgid "RRZE CodeBox requires WordPress %2$s or higher. Your site is running WordPress %1$s."
+msgid ""
+"RRZE CodeBox requires WordPress %2$s or higher. Your site is running "
+"WordPress %1$s."
 msgstr ""
+"RRZE CodeBox erfordert WordPress %2$s oder höher. Auf Ihrer Website läuft "
+"WordPress %1$s."
 
 #: build/blocks/codebox/index.js:1
 msgid "Light theme"
-msgstr ""
+msgstr "Helles Design"
 
 #: build/blocks/codebox/index.js:1
 msgid "Dark theme"
-msgstr ""
+msgstr "Dunkles Design"
 
 #: build/blocks/codebox/index.js:1
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: build/blocks/codebox/index.js:1
 msgid "Code settings"
-msgstr ""
+msgstr "Code-Einstellungen"
 
 #: build/blocks/codebox/index.js:1
 msgid "Show line numbers"
-msgstr ""
+msgstr "Zeilennummern anzeigen"
 
 #: build/blocks/codebox/index.js:1
 msgid "First line number"
-msgstr ""
+msgstr "Erste Zeilennummer"
 
 #: build/blocks/codebox/index.js:1
 msgid "Syntax highlighting"
-msgstr ""
+msgstr "Syntax-Hervorhebung"
 
 #: build/blocks/codebox/index.js:1
 msgid "Show language label"
-msgstr ""
+msgstr "Sprache anzeigen"
 
 #: build/blocks/codebox/index.js:1
 msgid "Caption"
-msgstr ""
+msgstr "Beschriftung "
 
 #: build/blocks/codebox/index.js:1
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: build/blocks/codebox/index.js:1
 msgid "Source URL"
-msgstr ""
+msgstr "Quell-URL"
 
 #: build/blocks/codebox/index.js:1
 msgid "Paste or type your code here…"
-msgstr ""
+msgstr "Code hier einfügen oder eingeben… "
 
 #: build/blocks/codebox/index.js:1
 msgid "Code input"
-msgstr ""
+msgstr "Code-Eingabe"
 
 #: build/blocks/codebox/index.js:1
 msgid "Updating preview…"
-msgstr ""
+msgstr "Vorschau wird aktualisiert… "
 
 #: build/blocks/codebox/block.json
 msgctxt "block title"
@@ -187,24 +195,24 @@ msgstr ""
 #: build/blocks/codebox/block.json
 msgctxt "block description"
 msgid "Add syntax-highlighted code to your page"
-msgstr ""
+msgstr "Code mit Syntax-Hervorhebung in die Seite einbinden."
 
 #: build/blocks/codebox/block.json
 msgctxt "block keyword"
 msgid "code"
-msgstr ""
+msgstr "Code"
 
 #: build/blocks/codebox/block.json
 msgctxt "block keyword"
 msgid "syntax"
-msgstr ""
+msgstr "Syntax"
 
 #: build/blocks/codebox/block.json
 msgctxt "block keyword"
 msgid "highlight"
-msgstr ""
+msgstr "Hervorhebung"
 
 #: build/blocks/codebox/block.json
 msgctxt "block keyword"
 msgid "programming"
-msgstr ""
+msgstr "Programmieren"

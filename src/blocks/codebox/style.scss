@@ -38,6 +38,7 @@
 
   &__body {
     border: 1px solid var(--rrze-codebox-border);
+    border-top: none;
   }
 
   &__language-label {
@@ -69,6 +70,10 @@
       opacity: 0.5;
       cursor: default;
     }
+  }
+
+  &__copy-icon {
+    fill: currentColor;
   }
 
   // Code area
@@ -121,6 +126,36 @@
     counter-reset: line calc(var(--cb-first-line, 1) - 1);
   }
 
+  // ── Caption / Quellenangabe ────────────────────────────────────────────
+  &__caption {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+    padding: 0.4em 1.25em;
+    font-size: 0.9em;
+    color: var(--rrze-codebox-caption);
+    border-top: 1px solid var(--rrze-codebox-border);
+  }
+
+  &__caption-src {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__pre {
+    margin: 0;
+    padding: 1em 1.25em;
+    overflow-x: auto;
+    background: var(--rrze-codebox-body-bg);
+    font-size: 0.875rem;
+    border: none;        // ← Theme-Border
+    border-radius: 0;    // ← Theme-Radius
+  }
+
   // ── Syntax token colours — Light (Atom Light) ─────────────────────────────
   .hljs-comment, .hljs-quote                           { color: #6B6B6B; font-style: italic; }
   .hljs-doctag, .hljs-keyword, .hljs-formula           { color: #a626a4; }
@@ -158,7 +193,6 @@
     --rrze-codebox-caption: #2B2B2B;
 
 
-
     // ── Syntax token colours — Dark (Atom Dark) ───────────────────────
     .hljs-comment, .hljs-quote                       { color: #9D9D9D; font-style: italic; }
     .hljs-keyword, .hljs-doctag, .hljs-formula,
@@ -180,26 +214,6 @@
   }
 
 
-  // ── Caption / Quellenangabe ────────────────────────────────────────────
-  &__caption {
-    display: flex;
-    gap: 1em;
-    align-items: baseline;
-    padding: 0.4em 1.25em;
-    font-size: 0.9em;
-    color: var(--rrze-codebox-caption);
-    border-top: 1px solid var(--rrze-codebox-border);
-  }
-
-  &__caption-src {
-    color: inherit;
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
   // ── Dark theme copy-button hover ───────────────────────────────────────
   &--dark &__copy-button {
     &:hover,
@@ -207,7 +221,5 @@
       background: rgba(255, 255, 255, 0.07);
     }
   }
-
-
 
 }
