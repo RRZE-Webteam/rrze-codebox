@@ -76,6 +76,14 @@ $wrapperAttributes = get_block_wrapper_attributes([
                 aria-label="<?php esc_attr_e('Copy code to clipboard', 'rrze-codebox'); ?>"
                 data-copied-label="<?php esc_attr_e('Copied!', 'rrze-codebox'); ?>"
         >
+            <svg class="rrze-codebox__copy-icon" aria-hidden="true"
+                 focusable="false"
+                 width="16" height="16" viewBox="0 0 24 24"
+                 fill="currentColor">
+                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6
+   5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0
+  16H8V7h11v14z"/>
+            </svg>
             <span class="rrze-codebox__copy-label">
                 <?php esc_html_e('Copy', 'rrze-codebox'); ?>
             </span>
@@ -93,6 +101,7 @@ $wrapperAttributes = get_block_wrapper_attributes([
         $gutter = '';
     endif;
     ?>
+    <div class="rrze-codebox__body">
     <pre
             class="rrze-codebox__pre"
             data-first-line="<?php echo esc_attr((string)$firstLineNumber); ?>"
@@ -113,6 +122,6 @@ $wrapperAttributes = get_block_wrapper_attributes([
         <?php endif; ?>
     </footer>
     <?php endif; ?>
-
+    </div>
 </div>
 

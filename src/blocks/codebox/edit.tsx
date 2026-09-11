@@ -11,6 +11,7 @@ import {
     TextControl,
     SelectControl,
     ToolbarGroup,
+    ToolbarDropdownMenu,
     ToolbarButton,
     __experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
@@ -46,14 +47,27 @@ interface EditProps {
 }
 
 const iconLight = (
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <circle cx="12" cy="12" r="9" fill="white" stroke="#C0CBDA" strokeWidth="1.5"/>
+    <svg width="20" height="20" viewBox="0 0 24 24"
+         aria-hidden="true" focusable="false"
+         fill="none" stroke="currentColor" strokeWidth="2"
+         strokeLinecap="round">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="2" x2="12" y2="4"/>
+        <line x1="12" y1="20" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="4" y2="12"/>
+        <line x1="20" y1="12" x2="22" y2="12"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
     </svg>
 );
 
 const iconDark = (
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <circle cx="12" cy="12" r="9" fill="#04316A" stroke="white" strokeWidth="1.5"/>
+    <svg width="20" height="20" viewBox="0 0 24 24"
+         aria-hidden="true" focusable="false"
+         fill="currentColor">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
     </svg>
 );
 
@@ -138,6 +152,26 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         isPressed={'dark' === theme}
                         onClick={() => setAttributes({theme: 'dark'})}
                     />
+                    <ToolbarDropdownMenu
+                        icon={
+                            <span style={{
+                                fontSize: '0.9em',
+                                fontWeight: 500,
+                                lineHeight: 1,
+                                border: '1px solid currentColor',
+                                borderRadius: '2px',
+                                padding: '10px 10px',
+                            }}>
+                            {languageOptions.find(o => o.value === language)?.label ?? language}
+                            </span>
+                        }
+                        label={__('Language', 'rrze-codebox')}
+                        controls={languageOptions.map(({value, label}) => ({
+                            title: label,
+                            isActive: value === language,
+                            onClick: () => setAttributes({language: value}),
+                        }))}
+                    />
                 </ToolbarGroup>
             </BlockControls>
 
@@ -209,57 +243,56 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         placeholder={__('Paste or type your code here…', 'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
                     />
-                ) : syntaxHighlighting ? (
-                    previewHtml && (
-                        <pre
-                            className="rrze-codebox__pre"
-                            aria-hidden={true}
-                            style={showLineNumbers ? {'--cb-first-line': firstLineNumber} as
-                                React.CSSProperties : {}}
-                        >
+                ) : (
+                    <>
+                        <div className="rrze-codebox__header">
+                            {showLanguage && (
+                                <span className="rrze-codebox__language-label">
+                          {languageOptions.find(o => o.value === language)?.label ?? language}
+                      </span>
+                            )}
+                        </div>
+                        <div className="rrze-codebox__body">
+                            {syntaxHighlighting ? (
+                                previewHtml && (
+                                    <pre
+                                        className="rrze-codebox__pre"
+                                        style={showLineNumbers ? {'--cb-first-line': firstLineNumber} as
+                                            React.CSSProperties : {}}
+                                    >
                               {showLineNumbers && (() => {
-                                  const count = Math.max(1, (previewHtml.match(/\n/g) ?? []).length +
-                                      1);
+                                  const count = Math.max(1, (previewHtml.match(/\n/g) ??
+                                      []).length + 1);
                                   return (
-                                      <span className="rrze-codebox__line-numbers-rows" aria-hidden>
-                                          {Array.from({length: count}).map((_, i) => <span key={i}/>)}
+                                      <span className="rrze-codebox__line-numbers-rows"
+                                            aria-hidden>
+                                          {Array.from({length: count}).map((_, i) => <span
+                                              key={i}/>)}
                                       </span>
                                   );
                               })()}
-                            <code
-                                className={`rrze-codebox__code hljs language-${language}`}
-                                dangerouslySetInnerHTML={{__html: previewHtml}}
-                            />
+                                        <code
+                                            className={`rrze-codebox__code hljs language-${language}`}
+                                            dangerouslySetInnerHTML={{__html: previewHtml}}
+                                        />
                           </pre>
-                    )
-                ) : (
-                    content && (
-                        <pre className="rrze-codebox__pre">
+                                )
+                            ) : (
+                                content && (
+                                    <pre className="rrze-codebox__pre">
                               <code className={`rrze-codebox__code language-${language}`}>
                                   {content}
                               </code>
                           </pre>
-                    )
+                                )
+                            )}
+                        </div>
+                    </>
                 )}
                 {isLoading && (
                     <p className="rrze-codebox__editor-loading" aria-live="polite">
                         {__('Updating preview…', 'rrze-codebox')}
                     </p>
-                )}
-                {(caption || captionUrl) && (
-                    <footer className="rrze-codebox__caption">
-                        {caption && <span className="rrze-codebox__caption-text">{caption}</span>}
-                        {captionUrl && (
-                            <a
-                                href={captionUrl}
-                                className="rrze-codebox__caption-src"
-                                rel="noopener noreferrer"
-                                target="_blank"
-                            >
-                                {__('Source', 'rrze-codebox')}
-                            </a>
-                        )}
-                    </footer>
                 )}
             </div>
         </>

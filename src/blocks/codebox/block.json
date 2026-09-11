@@ -6,7 +6,7 @@
     "title": "CodeBox",
     "category": "rrze",
     "icon": "editor-code",
-    "description": "Displays syntax-highlighted code",
+    "description": "Add syntax-highlighted code to your page",
     "keywords": ["code", "syntax", "highlight", "programming"],
     "textdomain": "rrze-codebox",
     "attributes": {
