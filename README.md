@@ -15,9 +15,9 @@ who need to embed formatted source code. Supported features in v1:
 - Syntax highlighting for 13 languages (server-side, via highlight.php)
 - Light and dark (FAU Blue) theme, switchable per block
 - Optional line numbers with configurable start number
-- Line highlighting (range syntax: `1,5,10-20`)
+- Syntax highlighting toggle per block
 - Language label display toggle
-- URL-to-link conversion in code
+- Caption with optional source URL
 - Copy-to-clipboard button (vanilla JS, no jQuery)
 
 No shortcodes. No global settings page. All configuration lives in the
@@ -59,12 +59,13 @@ controls. There is no global settings page in v1.
 | Control | Location | Description |
 | --- | --- | --- |
 | Light / Dark theme | Block Toolbar | Switches between FAU Light and FAU Blue theme |
-| Language | Inspector | Selects the syntax highlighting language |
+| Language | Block Toolbar + Inspector | Selects the syntax highlighting language |
 | Show line numbers | Inspector | Toggles line number display |
 | First line number | Inspector | Sets the starting line number (default: 1) |
-| Highlight lines | Inspector | Specifies lines to highlight (`1,5,10-20`) |
+| Syntax highlighting | Inspector | Enables or disables syntax highlighting |
 | Show language label | Inspector | Toggles the language label in the block header |
-| Make URLs clickable | Inspector | Converts URLs in code to clickable links |
+| Caption | Inspector | Description text shown below the code block |
+| Source URL | Inspector | Link to the original source, shown next to the caption |
 
 ## Multisite behavior
 
@@ -78,7 +79,7 @@ of the underscore in the Leitfaden's examples — see `doc/architecture.md`):
 
 | Command | Assets | Version effect | Typical use |
 | --- | --- | --- | --- |
-| `npm run watch` | unminified, source maps, rebuilds on change | none | during active development |
+| `npm run start` | unminified, source maps, rebuilds on change | none | during active development |
 | `npm run build` | unminified, source maps | none | just (re)build assets |
 | `npm run dev` | unminified, source maps | `Build` +1 | before a commit on `dev` |
 | `npm run prod` | minified, no source maps | `Patch` +1, `Build` → 0 | before a deployable commit |
@@ -132,8 +133,6 @@ is required beyond deactivation.
 - REST route `POST /rrze-codebox/v1/highlight`: accepts `code` and `language`,
   returns highlighted HTML. Used by the block editor for live preview.
   Requires `edit_posts` capability.
-- Filter `rrze_codebox_documentation_url`: returns the canonical end-user
-  documentation URL shown as plugin row meta; empty by default.
 - Block `rrze/codebox`: dynamic, server-rendered via `render.php`.
 
 ## Release process

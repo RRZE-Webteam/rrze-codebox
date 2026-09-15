@@ -42,16 +42,20 @@ class Highlighter
             return esc_html($code);
         }
 
+        static $hl = null;
+
         try {
-            $hl     = new HLHighlighter();
+            if ($hl === null) {
+                $hl = new HLHighlighter();
+            }
+
             $result = $hl->highlight($language, $code);
 
             return $result->value;
 
         } catch (\Exception $e) {
             Helper::log(
-                sprintf('Highlighting failed for "%s": %s', $language,
-                    $e->getMessage()),
+                sprintf('Highlighting failed for "%s": %s', $language, $e->getMessage()),
                 'error',
                 ['language' => $language]
             );
@@ -59,4 +63,5 @@ class Highlighter
             return esc_html($code);
         }
     }
+
 }

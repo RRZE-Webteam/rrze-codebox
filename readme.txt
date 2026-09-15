@@ -4,7 +4,7 @@ Tags: block, syntax highlighting, code, rrze
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 8.2
-Stable tag: 1.0.0-6
+Stable tag: 1.0.0-7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,9 +23,9 @@ Features:
 * Syntax highlighting for 13 languages (C, C++, C#, CSS, HTML/XML, Java, JavaScript, JSON, Perl, PHP, Python, SCSS, SQL)
 * Light and dark (FAU Blue) theme, switchable per block
 * Optional line numbers with configurable start number
-* Line highlighting (range syntax: 1,5,10-20)
+* Syntax highlighting toggle per block
 * Language label display toggle
-* URL-to-link conversion in code
+* Caption with optional source URL
 * Copy-to-clipboard button (no jQuery)
 
 No shortcodes. No global settings page. All configuration lives in the block toolbar and inspector controls.

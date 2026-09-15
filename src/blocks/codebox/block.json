@@ -31,10 +31,6 @@
             "type": "integer",
             "default": 1
         },
-        "highlightLines": {
-            "type": "string",
-            "default": ""
-        },
         "showLanguage": {
             "type": "boolean",
             "default": true

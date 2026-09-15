@@ -29,7 +29,6 @@ interface Attributes {
     theme: 'light' | 'dark';
     showLineNumbers: boolean;
     firstLineNumber: number;
-    highlightLines: string;
     showLanguage: boolean;
     syntaxHighlighting: boolean;
     caption: string;
@@ -78,7 +77,6 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         theme,
         showLineNumbers,
         firstLineNumber,
-        highlightLines,
         showLanguage,
         syntaxHighlighting,
         caption,
@@ -236,8 +234,10 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         placeholder={__('Paste or type your code here…',
                             'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
-                        style={{minHeight: `${Math.max(3,
-                                content.split('\n').length) * 1.5}em`}}
+                        style={{
+                            minHeight: `${Math.max(3,
+                                content.split('\n').length) * 1.5}em`
+                        }}
                     />
                 ) : (
                     <div className="rrze-codebox__body">
@@ -245,8 +245,10 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                             previewHtml && (
                                 <pre
                                     className="rrze-codebox__pre"
-                                    style={showLineNumbers ? {'--cb-first-line':
-                                        firstLineNumber} as React.CSSProperties : {}}
+                                    style={showLineNumbers ? {
+                                        '--rrze-codebox-first-line':
+                                        firstLineNumber
+                                    } as React.CSSProperties : {}}
                                 >
                           {showLineNumbers && (() => {
                               const count = Math.max(1,
@@ -254,24 +256,26 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                               return (
                                   <span
                                       className="rrze-codebox__line-numbers-rows" aria-hidden>
-                                      {Array.from({length:
-                                          count}).map((_, i) => <span key={i}/>)}
+                                      {Array.from({
+                                          length:
+                                          count
+                                      }).map((_, i) => <span key={i}/>)}
                                   </span>
                               );
                           })()}
+                                    {/* Safe: HTML comes from our own REST endpoint
+                                        (edit_posts required) and highlight.php escapes
+                                        all user input via htmlspecialchars(). */}
                                     <code
-                                        className={`rrze-codebox__code hljs        
-  language-${language}`}
-                                        dangerouslySetInnerHTML={{__html:
-                                            previewHtml}}
+                                        className={`rrze-codebox__code hljs language-${language}`}
+                                        dangerouslySetInnerHTML={{__html: previewHtml}}
                                     />
                       </pre>
                             )
                         ) : (
                             content && (
                                 <pre className="rrze-codebox__pre">
-                          <code className={`rrze-codebox__code           
-  language-${language}`}>
+                          <code className={`rrze-codebox__code language-${language}`}>
                               {content}
                           </code>
                       </pre>

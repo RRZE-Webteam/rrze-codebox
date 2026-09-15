@@ -48,6 +48,7 @@
   }
 
   &__copy-button {
+    margin-left: auto;
     font-size: 1em;
     padding: 0.2em 0.7em;
     border: none;
@@ -83,6 +84,8 @@
     overflow-x: auto;
     background: var(--rrze-codebox-body-bg);
     font-size: 0.875rem;
+    border: none;        // ← Theme-Border
+    border-radius: 0;    // ← Theme-Radius
   }
 
   &__code {
@@ -123,7 +126,7 @@
   &--line-numbers &__pre {
     position: relative;
     padding-left: 4em; // Gutter
-    counter-reset: line calc(var(--cb-first-line, 1) - 1);
+    counter-reset: line calc(var(--rrze-codebox-first-line, 1) - 1);
   }
 
   // ── Caption / Quellenangabe ────────────────────────────────────────────
@@ -146,15 +149,7 @@
     }
   }
 
-  &__pre {
-    margin: 0;
-    padding: 1em 1.25em;
-    overflow-x: auto;
-    background: var(--rrze-codebox-body-bg);
-    font-size: 0.875rem;
-    border: none;        // ← Theme-Border
-    border-radius: 0;    // ← Theme-Radius
-  }
+
 
   // ── Syntax token colours — Light (Atom Light) ─────────────────────────────
   .hljs-comment, .hljs-quote                           { color: #6B6B6B; font-style: italic; }

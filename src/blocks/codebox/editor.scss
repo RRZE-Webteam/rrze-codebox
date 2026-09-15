@@ -16,4 +16,8 @@
     outline:     none;
     border: 0.8px solid #dedede;
   }
+
+  &__body {
+    border-top: 1px solid var(--rrze-codebox-border);
+  }
 }

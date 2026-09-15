@@ -23,7 +23,7 @@ use WP_REST_Server;
 class Endpoint
 {
     private const REST_NAMESPACE = 'rrze-codebox/v1';
-    private const REST_ROUTE     = '/highlight';
+    private const REST_ROUTE = '/highlight';
 
     public function init(): void
     {
@@ -39,10 +39,10 @@ class Endpoint
             self::REST_NAMESPACE,
             self::REST_ROUTE,
             [
-                'methods'             => WP_REST_Server::CREATABLE,
-                'callback'            => [$this, 'handle'],
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => [$this, 'handle'],
                 'permission_callback' => [$this, 'checkPermission'],
-                'args'                => $this->getArgs(),
+                'args' => $this->getArgs(),
             ]
         );
     }
@@ -61,8 +61,8 @@ class Endpoint
      */
     public function handle(WP_REST_Request $request): WP_REST_Response
     {
-        $code     = (string) $request->get_param('code');
-        $language = (string) $request->get_param('language');
+        $code = (string)$request->get_param('code');
+        $language = (string)$request->get_param('language');
 
         $html = Highlighter::highlight($code, $language);
 
@@ -77,17 +77,53 @@ class Endpoint
         return [
             'code' => [
                 'required' => true,
-                'type'     => 'string',
-                // Raw source code is preserved as-is.
-                // WordPress REST API handles JSON unslashing automatically.
-              ],
+                'type' => 'string',
+                'validate_callback' => [$this, 'validateCode'],
+                'sanitize_callback' => [$this, 'sanitizeCode'],
+            ],
             'language' => [
-                'required'          => true,
-                'type'              => 'string',
+                'required' => true,
+                'type' => 'string',
                 'sanitize_callback' => [$this, 'sanitizeLanguage'],
                 'validate_callback' => [$this, 'validateLanguage'],
             ],
         ];
+    }
+
+    /**
+     * Rejects code payloads longer than 200.000 characters.
+     *
+     * Prevents authenticated users from sending arbitrarily large
+     * inputs to highlight.php, which would consume excessive CPU.
+     */
+    public function validateCode(string $value): bool|\WP_Error
+    {
+        $maxLength = 200000;
+
+        if (mb_strlen($value, 'UTF-8') > $maxLength) {
+            return new \WP_Error(
+                'rest_code_too_long',
+                sprintf(
+                /* translators: %s: maximum allowed character count */
+                    __('The code must not exceed %s characters.', 'rrze-codebox'),
+                    number_format_i18n($maxLength)
+                ),
+                ['status' => 400]
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * Ensures the code value is a string.
+     *
+     * No content sanitization — raw source code must be preserved as-is.
+     * Output escaping happens in Highlighter::highlight().
+     */
+    public function sanitizeCode(mixed $value): string
+    {
+        return (string) $value;
     }
 
     /**

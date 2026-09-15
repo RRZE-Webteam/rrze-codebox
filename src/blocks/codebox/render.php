@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Server-side render template for rrze/codebox.
  *
@@ -23,40 +25,33 @@ $attributes['content'] : '';
 $language = isset($attributes['language']) ? sanitize_key($attributes['language']) : 'javascript';
 $theme = isset($attributes['theme']) && 'dark' === $attributes['theme'] ? 'dark' : 'light';
 $showLineNumbers = !empty($attributes['showLineNumbers']);
-$firstLineNumber = isset($attributes['firstLineNumber']) ? max(1, (int)
-$attributes['firstLineNumber']) : 1;
-$highlightLines = isset($attributes['highlightLines']) ? (string)
-$attributes['highlightLines'] : '';
-$showLanguage = !isset($attributes['showLanguage']) || (bool)
-        $attributes['showLanguage'];
+$firstLineNumber = isset($attributes['firstLineNumber']) ? max(1, (int) $attributes['firstLineNumber']) : 1;
+$showLanguage = !isset($attributes['showLanguage']) || (bool)$attributes['showLanguage'];
 $syntaxHighlighting = !isset($attributes['syntaxHighlighting']) || (bool) $attributes['syntaxHighlighting'];
 $caption    = isset($attributes['caption']) ? (string) $attributes['caption'] : '';
-$captionUrl = isset($attributes['captionUrl']) ? esc_url_raw($attributes['captionUrl']) : '';
+$captionUrl = isset($attributes['captionUrl']) ? (string)$attributes['captionUrl'] : '';
 
 if (!Languages::isValid($language)) {
     $language = 'javascript';
 }
 
 // --- Highlighting ---
-
 $highlightedCode = $syntaxHighlighting
         ? Highlighter::highlight($code, $language)
         : esc_html($code);
 
 // --- Language label ---
-
 $allLanguages = Languages::getAll();
 $languageLabel = $allLanguages[$language] ?? $language;
 
 // --- Wrapper ---
-
 $wrapperAttributes = get_block_wrapper_attributes([
         'class' => implode(' ', array_filter([
                 'rrze-codebox',
                 'rrze-codebox--' . $theme,
                 $showLineNumbers ? 'rrze-codebox--line-numbers' : '',
         ])),
-        'style' => $showLineNumbers ? '--cb-first-line: ' . $firstLineNumber . ';' : '',
+        'style' => $showLineNumbers ? ' --rrze-codebox-first-line: ' . $firstLineNumber . ';' : '',
 
 ]);
 ?>
@@ -93,7 +88,8 @@ $wrapperAttributes = get_block_wrapper_attributes([
 
     <?php
     if ($showLineNumbers) :
-        $lineCount = max(1, substr_count(rtrim($highlightedCode, "\n"), "\n") + 1);
+        $lines    = explode("\n", str_replace("\r\n", "\n", rtrim($code, "\r\n")));
+        $lineCount = max(1, count($lines));
         $rows = str_repeat('<span></span>', $lineCount);
         $gutter = '<span class="rrze-codebox__line-numbers-rows" aria-hidden="true">' .
                 $rows . '</span>';
@@ -105,12 +101,17 @@ $wrapperAttributes = get_block_wrapper_attributes([
     <pre
             class="rrze-codebox__pre"
             data-first-line="<?php echo esc_attr((string)$firstLineNumber); ?>"
-            data-highlight-lines="<?php echo esc_attr($highlightLines); ?>"
     ><?php echo $gutter; ?><code class="rrze-codebox__code hljs language-<?php echo
         esc_attr($language);
-        ?>"><?php echo $highlightedCode; ?></code></pre>
+        ?>"><?php
+            // highlight.php escapes all user-supplied code via htmlspecialchars()
+            // before wrapping it in <span> elements. $highlightedCode is therefore
+            // safe HTML and must not be double-escaped — esc_html() would render
+            // the <span> tags as visible text instead of applying syntax colours.
+            echo $highlightedCode;
+            ?></code></pre>
 
-    <?php if ($caption || $captionUrl) : ?>
+        <?php if ($caption || $captionUrl) : ?>
     <footer class="rrze-codebox__caption">
         <?php if ($caption) : ?>
             <span class="rrze-codebox__caption-text"><?php echo esc_html($caption); ?></span>

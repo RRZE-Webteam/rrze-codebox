@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License Version 3.
 msgid ""
 msgstr ""
-"Project-Id-Version: RRZE CodeBox 1.0.0-5\n"
+"Project-Id-Version: RRZE CodeBox 1.0.0-6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/rrze-codebox\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-11T11:37:21+00:00\n"
+"POT-Creation-Date: 2026-09-15T08:39:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: rrze-codebox\n"
@@ -39,19 +39,19 @@ msgstr ""
 msgid "https://www.wp.rrze.fau.de/"
 msgstr ""
 
-#: build/blocks/codebox/render.php:76
+#: build/blocks/codebox/render.php:71
 msgid "Copy code to clipboard"
 msgstr ""
 
-#: build/blocks/codebox/render.php:77
+#: build/blocks/codebox/render.php:72
 msgid "Copied!"
 msgstr ""
 
-#: build/blocks/codebox/render.php:88
+#: build/blocks/codebox/render.php:83
 msgid "Copy"
 msgstr ""
 
-#: build/blocks/codebox/render.php:120
+#: build/blocks/codebox/render.php:121
 msgid "Source"
 msgstr ""
 
@@ -59,56 +59,62 @@ msgstr ""
 msgid "RRZE"
 msgstr ""
 
-#: includes/Config/Languages.php:27
+#: includes/Config/Languages.php:32
 msgid "C"
 msgstr ""
 
-#: includes/Config/Languages.php:28
+#: includes/Config/Languages.php:33
 msgid "C++"
 msgstr ""
 
-#: includes/Config/Languages.php:29
+#: includes/Config/Languages.php:34
 msgid "C#"
 msgstr ""
 
-#: includes/Config/Languages.php:30
+#: includes/Config/Languages.php:35
 msgid "CSS"
 msgstr ""
 
-#: includes/Config/Languages.php:31
+#: includes/Config/Languages.php:36
 msgid "HTML / XML"
 msgstr ""
 
-#: includes/Config/Languages.php:32
+#: includes/Config/Languages.php:37
 msgid "Java"
 msgstr ""
 
-#: includes/Config/Languages.php:33
+#: includes/Config/Languages.php:38
 msgid "JavaScript"
 msgstr ""
 
-#: includes/Config/Languages.php:34
+#: includes/Config/Languages.php:39
 msgid "JSON"
 msgstr ""
 
-#: includes/Config/Languages.php:35
+#: includes/Config/Languages.php:40
 msgid "Perl"
 msgstr ""
 
-#: includes/Config/Languages.php:36
+#: includes/Config/Languages.php:41
 msgid "PHP"
 msgstr ""
 
-#: includes/Config/Languages.php:37
+#: includes/Config/Languages.php:42
 msgid "Python"
 msgstr ""
 
-#: includes/Config/Languages.php:38
+#: includes/Config/Languages.php:43
 msgid "SCSS"
 msgstr ""
 
-#: includes/Config/Languages.php:39
+#: includes/Config/Languages.php:44
 msgid "SQL"
+msgstr ""
+
+#. translators: %s: maximum allowed character count
+#: includes/REST/Endpoint.php:108
+#, php-format
+msgid "The code must not exceed %s characters."
 msgstr ""
 
 #. translators: 1: Current PHP version. 2: Required PHP version.
@@ -123,60 +129,57 @@ msgstr ""
 msgid "RRZE CodeBox requires WordPress %2$s or higher. Your site is running WordPress %1$s."
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:161
 msgid "Light theme"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:168
 msgid "Dark theme"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:182
+#: build/blocks/codebox/index.js:199
 msgid "Language"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:197
 msgid "Code settings"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:206
 msgid "Show line numbers"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:212
 msgid "First line number"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:219
 msgid "Syntax highlighting"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:225
 msgid "Show language label"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:232
 msgid "Caption"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:235
 msgid "Description"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:241
 msgid "Source URL"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:256
 msgid "Paste or type your code here…"
 msgstr ""
 
-#: build/blocks/codebox/index.js:1
+#: build/blocks/codebox/index.js:257
 msgid "Code input"
-msgstr ""
-
-#: build/blocks/codebox/index.js:1
-msgid "Updating preview…"
 msgstr ""
 
 #: build/blocks/codebox/block.json

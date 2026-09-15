@@ -23,7 +23,12 @@ class Languages
      */
     public static function getAll(): array
     {
-        return [
+        static $cache = null;
+        if ($cache !== null) {
+            return $cache;
+        }
+
+       $cache  = [
             'c'          => __('C', 'rrze-codebox'),
             'cpp'        => __('C++', 'rrze-codebox'),
             'csharp'     => __('C#', 'rrze-codebox'),
@@ -36,8 +41,10 @@ class Languages
             'php'        => __('PHP', 'rrze-codebox'),
             'python'     => __('Python', 'rrze-codebox'),
             'scss'       => __('SCSS', 'rrze-codebox'),
-            'sql'        => __('SQL', 'rrze-codebox'),
+            'sql'        => __('SQL', 'rrze-codebox')
         ];
+
+        return $cache;
     }
 
     /**
