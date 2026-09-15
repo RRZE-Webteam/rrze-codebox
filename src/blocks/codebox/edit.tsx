@@ -1,3 +1,4 @@
+import {encodeContent, decodeContent, lineNumberRows} from '../../utils/helpers';
 import {__} from '@wordpress/i18n';
 import {
     useBlockProps,
@@ -83,6 +84,8 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         captionUrl,
     } = attributes;
 
+    const decodedContent = decodeContent(content);
+
     const [previewHtml, setPreviewHtml] = useState<string>('');
 
     const blockProps = useBlockProps({
@@ -97,7 +100,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
     // AbortController cancels the previous request when content or language
     // changes before the debounce fires, preventing race conditions.
     useEffect(() => {
-        if (!syntaxHighlighting || !content.trim()) {
+        if (!syntaxHighlighting || !decodedContent.trim()) {
             setPreviewHtml('');
             return;
         }
@@ -108,7 +111,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
             apiFetch<HighlightResponse>({
                 path: '/rrze-codebox/v1/highlight',
                 method: 'POST',
-                data: {code: content, language},
+                data: {code: decodedContent, language},
                 signal: controller.signal,
             })
                 .then((response) => setPreviewHtml(response.html))
@@ -123,7 +126,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
             clearTimeout(timeout);
             controller.abort();
         };
-    }, [content, language, syntaxHighlighting]);
+    }, [decodedContent, language, syntaxHighlighting]);
 
     const languageOptions = Object.entries(rrzeCodeboxData.languages).map(
         ([value, label]) => ({value, label})
@@ -215,43 +218,33 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
             <div {...blockProps}>
                 {isSelected ? (
                     <PlainText
-                        value={content}
-                        onChange={(value) => setAttributes({content: value})}
-                        placeholder={__('Paste or type your code here…',
-                            'rrze-codebox')}
+                        value={decodedContent}
+                        onChange={(value) => setAttributes({content: encodeContent(value)})}
+                        placeholder={__('Paste or type your code here…', 'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
-                        style={{minHeight: `${Math.max(3, content.split('\n').length) * 1.5}em`}}
+                        style={{minHeight: `${Math.max(3, decodedContent.split('\n').length) * 1.5}em`}}
                     />
                 ) : (
                     <div className="rrze-codebox__body">
-                        {syntaxHighlighting ? (
-                            previewHtml && (
-                                <pre
-                                    className="rrze-codebox__pre"
-                                    style={showLineNumbers ? {'--rrze-codebox-first-line': firstLineNumber} as React.CSSProperties : {}}
-                                >
-                                    {showLineNumbers && (() => {
-                                        const count = Math.max(1, (previewHtml.match(/\n/g) ?? []).length + 1);
-                                        return (
-                                            <span className="rrze-codebox__line-numbers-rows" aria-hidden>
-                                                {Array.from({length: count}).map((_, i) => <span key={i}/>)}
-                                            </span>
-                                        );
-                                    })()}
-                                    {/* Safe: HTML comes from our own REST endpoint
-                                        (edit_posts required) and highlight.php escapes
-                                        all user input via htmlspecialchars(). */}
-                                    <code
-                                        className={`rrze-codebox__code hljs language-${language}`}
-                                        dangerouslySetInnerHTML={{__html: previewHtml}}
-                                    />
-                                </pre>
-                            )
+                        {syntaxHighlighting && previewHtml ? (
+                            <pre
+                                className="rrze-codebox__pre"
+                                style={showLineNumbers ? {'--rrze-codebox-first-line': firstLineNumber} as React.CSSProperties : {}}
+                            >
+                                {showLineNumbers && lineNumberRows(previewHtml)}
+                                {/* Safe: HTML comes from our own REST endpoint
+                                    (edit_posts required) and highlight.php escapes
+                                    all user input via htmlspecialchars(). */}
+                                <code
+                                    className={`rrze-codebox__code hljs language-${language}`}
+                                    dangerouslySetInnerHTML={{__html: previewHtml}}
+                                />
+                            </pre>
                         ) : (
-                            content && (
+                            decodedContent && (
                                 <pre className="rrze-codebox__pre">
                                     <code className={`rrze-codebox__code language-${language}`}>
-                                        {content}
+                                        {decodedContent}
                                     </code>
                                 </pre>
                             )

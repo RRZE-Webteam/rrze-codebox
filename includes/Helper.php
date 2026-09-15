@@ -47,6 +47,51 @@ class Helper
     {
         return defined('WP_DEBUG') && WP_DEBUG;
     }
+
+
+    /**
+     * Decodes a Base64-encoded code string back to its original form.
+     *
+     * Block attributes are stored Base64-encoded to prevent WordPress
+     * KSES from stripping HTML tags in code examples (e.g. <script>)
+     * for users without the unfiltered_html capability.
+     *
+     * Returns the original string unchanged when decoding fails —
+     * this handles legacy blocks that stored raw content.
+     *
+     * @param string $encoded The Base64-encoded string.
+     * @return string         The decoded source code.
+     */
+    public static function decodeContent(string $encoded): string
+    {
+        if ($encoded === '') {
+            return '';
+        }
+
+        $decoded = base64_decode($encoded, true);
+
+        if ($decoded === false) {
+            return $encoded;
+        }
+
+        return $decoded;
+    }
+
+
+    /**
+     * Escapes raw source code for safe HTML output.
+     *
+     * Unlike esc_html(), this enables double_encode so that existing
+     * HTML entities in code (e.g. &lt;) are preserved literally
+     * instead of being rendered as their character equivalent.
+     *
+     * @param string $code Raw source code.
+     * @return string      Safe HTML string.
+     */
+    public static function escapeCode(string $code): string
+    {
+        return htmlspecialchars($code, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', true);
+    }
 }
 
 

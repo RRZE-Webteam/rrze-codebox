@@ -101,8 +101,16 @@ class Endpoint
      * Prevents authenticated users from sending arbitrarily large
      * inputs to highlight.php, which would consume excessive CPU.
      */
-    public function validateCode(string $value): bool|\WP_Error
+    public function validateCode(mixed $value): bool|\WP_Error
     {
+        if (!is_string($value)) {
+            return new \WP_Error(
+                'rest_invalid_type',
+                __('Code must be a string.', 'rrze-codebox'),
+                ['status' => 400]
+            );
+        }
+
         $maxLength = 200000;
 
         if (mb_strlen($value, 'UTF-8') > $maxLength) {
@@ -136,17 +144,21 @@ class Endpoint
     /**
      * Reduces the language value to a safe slug.
      */
-    public function sanitizeLanguage(string $value): string
+    public function sanitizeLanguage(mixed $value): string
     {
-        return sanitize_key($value);
+        return sanitize_key((string) $value);
     }
 
 
     /**
      * Returns true when the language slug exists in the supported list.
      */
-    public function validateLanguage(string $value): bool
+    public function validateLanguage(mixed $value): bool
     {
+        if (!is_string($value)) {
+            return false;
+        }
+
         return Languages::isValid(sanitize_key($value));
     }
 }

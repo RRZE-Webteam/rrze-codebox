@@ -4,7 +4,7 @@ Tags: block, syntax highlighting, code, rrze
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 8.2
-Stable tag: 1.0.0-8
+Stable tag: 1.0.0-9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -32,10 +32,8 @@ No shortcodes. No global settings page. All configuration lives in the block too
 
 == Installation ==
 
-1. Clone the repository into `wp-content/plugins/rrze-codebox/`.
-2. Run `composer install` to install PHP dependencies.
-3. Run `npm ci && npm run build` to build block assets.
-4. Activate the plugin on a single site or network-activate it on Multisite.
+Install and update via RRZE Updater or download the latest release from GitHub.
+Activate the plugin on a single site or network-activate it on Multisite.
 
 == Changelog ==
 

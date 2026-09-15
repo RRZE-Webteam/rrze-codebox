@@ -54,6 +54,11 @@
     "captionUrl": {
       "type": "string",
       "default": ""
+    },
+    "contentEncoding": {
+      "type": "string",
+      "default": "base64",
+      "enum": ["base64"]
     }
   },
   "supports": {

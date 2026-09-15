@@ -16,14 +16,6 @@ AGENTS.md
 GEMINI.md
 .cursor/rules/
 
-# Build output is committed to main (Standard section 39: main must be
-# directly executable), but never commit it from a local, possibly stale
-# or non-production build on dev/feature branches. Adjust this rule to your
-# team's actual branch policy before first release; as shipped, build/ is
-# ignored so contributors don't accidentally commit local dev builds.
-/build/*
-!/build/.gitkeep
-
 # Local IDE / OS artifacts
 .idea/
 .vscode/
@@ -40,7 +32,3 @@ wp-config-local.php
 *.tmp
 /coverage/
 
-# Composer runtime dependencies (highlight.php). Excluded on dev, but
-# vendor/ MUST be committed to main — WordPress deploys directly from
-# the main branch without a server-side build step.
-/vendor/

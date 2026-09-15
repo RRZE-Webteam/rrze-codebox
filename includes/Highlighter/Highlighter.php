@@ -39,7 +39,7 @@ class Highlighter
                 ['language' => $language]
             );
 
-            return esc_html($code);
+            return Helper::escapeCode($code);
         }
 
         static $hl = null;
@@ -60,7 +60,7 @@ class Highlighter
                 ['language' => $language]
             );
 
-            return esc_html($code);
+            return Helper::escapeCode($code);
         }
     }
 
