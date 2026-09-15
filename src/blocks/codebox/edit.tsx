@@ -93,7 +93,6 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         ].filter(Boolean).join(' '),
     });
 
-
     // Fetch highlighted preview from PHP — same logic as the frontend render.
     // AbortController cancels the previous request when content or language
     // changes before the debounce fires, preventing race conditions.
@@ -172,43 +171,30 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         label={__('Language', 'rrze-codebox')}
                         value={language}
                         options={languageOptions}
-                        onChange={(value) => setAttributes({language: value})
-                        }
+                        onChange={(value) => setAttributes({language: value})}
                     />
                     <ToggleControl
                         label={__('Show line numbers', 'rrze-codebox')}
                         checked={showLineNumbers}
-                        onChange={(value) => setAttributes({showLineNumbers: value})
-                        }
+                        onChange={(value) => setAttributes({showLineNumbers: value})}
                     />
                     {showLineNumbers && (
                         <NumberControl
                             label={__('First line number', 'rrze-codebox')}
                             value={firstLineNumber}
                             min={1}
-                            onChange={(value) => setAttributes({
-                                firstLineNumber: parseInt(
-                                    value ?? '1',
-                                    10
-                                ),
-                            })
-                            }
+                            onChange={(value) => setAttributes({firstLineNumber: parseInt(value ?? '1', 10),})}
                         />
                     )}
                     <ToggleControl
                         label={__('Syntax highlighting', 'rrze-codebox')}
                         checked={syntaxHighlighting}
-                        onChange={(value) => setAttributes({
-                            syntaxHighlighting:
-                            value
-                        })}
+                        onChange={(value) => setAttributes({syntaxHighlighting: value})}
                     />
                     <ToggleControl
                         label={__('Show language label', 'rrze-codebox')}
                         checked={showLanguage}
-                        onChange={(value) =>
-                            setAttributes({showLanguage: value})
-                        }
+                        onChange={(value) => setAttributes({showLanguage: value})}
                     />
                 </PanelBody>
                 <PanelBody title={__('Caption', 'rrze-codebox')} initialOpen={false}>
@@ -234,10 +220,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                         placeholder={__('Paste or type your code here…',
                             'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
-                        style={{
-                            minHeight: `${Math.max(3,
-                                content.split('\n').length) * 1.5}em`
-                        }}
+                        style={{minHeight: `${Math.max(3, content.split('\n').length) * 1.5}em`}}
                     />
                 ) : (
                     <div className="rrze-codebox__body">
@@ -245,24 +228,16 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                             previewHtml && (
                                 <pre
                                     className="rrze-codebox__pre"
-                                    style={showLineNumbers ? {
-                                        '--rrze-codebox-first-line':
-                                        firstLineNumber
-                                    } as React.CSSProperties : {}}
+                                    style={showLineNumbers ? {'--rrze-codebox-first-line': firstLineNumber} as React.CSSProperties : {}}
                                 >
-                          {showLineNumbers && (() => {
-                              const count = Math.max(1,
-                                  (previewHtml.match(/\n/g) ?? []).length + 1);
-                              return (
-                                  <span
-                                      className="rrze-codebox__line-numbers-rows" aria-hidden>
-                                      {Array.from({
-                                          length:
-                                          count
-                                      }).map((_, i) => <span key={i}/>)}
-                                  </span>
-                              );
-                          })()}
+                                    {showLineNumbers && (() => {
+                                        const count = Math.max(1, (previewHtml.match(/\n/g) ?? []).length + 1);
+                                        return (
+                                            <span className="rrze-codebox__line-numbers-rows" aria-hidden>
+                                                {Array.from({length: count}).map((_, i) => <span key={i}/>)}
+                                            </span>
+                                        );
+                                    })()}
                                     {/* Safe: HTML comes from our own REST endpoint
                                         (edit_posts required) and highlight.php escapes
                                         all user input via htmlspecialchars(). */}
@@ -270,15 +245,15 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                                         className={`rrze-codebox__code hljs language-${language}`}
                                         dangerouslySetInnerHTML={{__html: previewHtml}}
                                     />
-                      </pre>
+                                </pre>
                             )
                         ) : (
                             content && (
                                 <pre className="rrze-codebox__pre">
-                          <code className={`rrze-codebox__code language-${language}`}>
-                              {content}
-                          </code>
-                      </pre>
+                                    <code className={`rrze-codebox__code language-${language}`}>
+                                        {content}
+                                    </code>
+                                </pre>
                             )
                         )}
                     </div>

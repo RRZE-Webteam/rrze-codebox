@@ -13,7 +13,6 @@ defined('ABSPATH') || exit;
  * Both PHP (Highlighter, REST endpoint) and JavaScript (block editor
  * via wp_localize_script) read from here. Never duplicate this list.
  */
-
 class Languages
 {
     /**
@@ -28,24 +27,25 @@ class Languages
             return $cache;
         }
 
-       $cache  = [
-            'c'          => __('C', 'rrze-codebox'),
-            'cpp'        => __('C++', 'rrze-codebox'),
-            'csharp'     => __('C#', 'rrze-codebox'),
-            'css'        => __('CSS', 'rrze-codebox'),
-            'xml'        => __('HTML / XML', 'rrze-codebox'),
-            'java'       => __('Java', 'rrze-codebox'),
+        $cache = [
+            'c' => __('C', 'rrze-codebox'),
+            'cpp' => __('C++', 'rrze-codebox'),
+            'csharp' => __('C#', 'rrze-codebox'),
+            'css' => __('CSS', 'rrze-codebox'),
+            'xml' => __('HTML / XML', 'rrze-codebox'),
+            'java' => __('Java', 'rrze-codebox'),
             'javascript' => __('JavaScript', 'rrze-codebox'),
-            'json'       => __('JSON', 'rrze-codebox'),
-            'perl'       => __('Perl', 'rrze-codebox'),
-            'php'        => __('PHP', 'rrze-codebox'),
-            'python'     => __('Python', 'rrze-codebox'),
-            'scss'       => __('SCSS', 'rrze-codebox'),
-            'sql'        => __('SQL', 'rrze-codebox')
+            'json' => __('JSON', 'rrze-codebox'),
+            'perl' => __('Perl', 'rrze-codebox'),
+            'php' => __('PHP', 'rrze-codebox'),
+            'python' => __('Python', 'rrze-codebox'),
+            'scss' => __('SCSS', 'rrze-codebox'),
+            'sql' => __('SQL', 'rrze-codebox')
         ];
 
         return $cache;
     }
+
 
     /**
      * Returns true when the given slug is a supported language identifier.

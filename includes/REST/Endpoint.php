@@ -30,6 +30,7 @@ class Endpoint
         add_action('rest_api_init', [$this, 'register']);
     }
 
+
     /**
      * Registers the route with WordPress.
      */
@@ -47,6 +48,7 @@ class Endpoint
         );
     }
 
+
     /**
      * Only users who can edit posts may call this endpoint.
      * The block editor is only accessible to such users anyway.
@@ -55,6 +57,7 @@ class Endpoint
     {
         return current_user_can('edit_posts');
     }
+
 
     /**
      * Handles the request and returns highlighted HTML.
@@ -68,6 +71,7 @@ class Endpoint
 
         return new WP_REST_Response(['html' => $html], 200);
     }
+
 
     /**
      * @return array<string, mixed>
@@ -89,6 +93,7 @@ class Endpoint
             ],
         ];
     }
+
 
     /**
      * Rejects code payloads longer than 200.000 characters.
@@ -115,6 +120,7 @@ class Endpoint
         return true;
     }
 
+
     /**
      * Ensures the code value is a string.
      *
@@ -123,8 +129,9 @@ class Endpoint
      */
     public function sanitizeCode(mixed $value): string
     {
-        return (string) $value;
+        return (string)$value;
     }
+
 
     /**
      * Reduces the language value to a safe slug.
@@ -133,6 +140,7 @@ class Endpoint
     {
         return sanitize_key($value);
     }
+
 
     /**
      * Returns true when the language slug exists in the supported list.

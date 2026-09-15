@@ -1,19 +1,19 @@
 <?php
 
 /**
-Plugin Name:        RRZE CodeBox
-Plugin URI:         https://github.com/RRZE-Webteam/rrze-codebox
-Version:            1.0.0-7
-Description:        Adds a block for displaying syntax-highlighted code
-Author:             RRZE Webteam
-Author URI:         https://www.wp.rrze.fau.de/
-License:            GNU General Public License Version 3
-License URI:        https://www.gnu.org/licenses/gpl-3.0.html
-Text Domain:        rrze-codebox
-Domain Path:        /languages
-Requires at least:  6.8
-Requires PHP:       8.2
-*/
+ * Plugin Name:        RRZE CodeBox
+ * Plugin URI:         https://github.com/RRZE-Webteam/rrze-codebox
+ * Version:            1.0.0-8
+ * Description:        Adds a block for displaying syntax-highlighted code
+ * Author:             RRZE Webteam
+ * Author URI:         https://www.wp.rrze.fau.de/
+ * License:            GNU General Public License Version 3
+ * License URI:        https://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain:        rrze-codebox
+ * Domain Path:        /languages
+ * Requires at least:  6.8
+ * Requires PHP:       8.2
+ */
 
 declare(strict_types=1);
 
@@ -24,14 +24,14 @@ defined('ABSPATH') || exit;
 // Minimum requirements — const because these are simple string values only
 // needed within this namespace (in systemRequirements() below).
 const RRZE_CODEBOX_PHP_VERSION = '8.2';
-const RRZE_CODEBOX_WP_VERSION  = '6.8';
+const RRZE_CODEBOX_WP_VERSION = '6.8';
 
 // Runtime constants — define() required because plugin_dir_path/url() are
 // function calls, and these values must be accessible from all namespaces.
-define('RRZE_CODEBOX_VERSION', '1.0.0-7');
-define('RRZE_CODEBOX_FILE',    __FILE__);
-define('RRZE_CODEBOX_DIR',     plugin_dir_path(__FILE__));
-define('RRZE_CODEBOX_URL',     plugin_dir_url(__FILE__));
+define('RRZE_CODEBOX_VERSION', '1.0.0-8');
+define('RRZE_CODEBOX_FILE', __FILE__);
+define('RRZE_CODEBOX_DIR', plugin_dir_path(__FILE__));
+define('RRZE_CODEBOX_URL', plugin_dir_url(__FILE__));
 
 // Composer handles autoloading for both the highlight.php package and our
 // own classes (RRZE\Codebox\* → includes/) configured in composer.json.
@@ -47,7 +47,9 @@ register_deactivation_hook(__FILE__, __NAMESPACE__ . '\deactivatePlugin');
  * Must remain fast — no remote calls, no heavy migrations (Standard §49).
  * No scheduled events or schema migrations in v1, so intentionally empty.
  */
-function activatePlugin(): void {}
+function activatePlugin(): void
+{
+}
 
 
 /**
@@ -56,7 +58,9 @@ function activatePlugin(): void {}
  * Must NOT delete user data — that belongs in uninstall.php (Standard §23).
  * No scheduled events to clear in v1.
  */
-function deactivatePlugin(): void {}
+function deactivatePlugin(): void
+{
+}
 
 
 /**

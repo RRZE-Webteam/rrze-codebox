@@ -1,19 +1,19 @@
-// Editing area inside the block (PlainText = <textarea>)
+// PlainText = <textarea>
 .rrze-codebox {
   .block-editor-plain-text {
-    display:     block;
-    width:       100%;
-    padding:     1em 1.25em;
+    display: block;
+    width: 100%;
+    padding: 1em 1.25em;
     font-family: "Source Code Pro", monospace;
-    font-size:   1em;
+    font-size: 1em;
     line-height: 1.5;
-    color:       inherit;
-    background:  transparent;
+    color: inherit;
+    background: transparent;
     white-space: pre;
-    tab-size:    4;
-    resize:      vertical;
-    box-shadow:  none;
-    outline:     none;
+    tab-size: 4;
+    resize: vertical;
+    box-shadow: none;
+    outline: none;
     border: 0.8px solid #dedede;
   }
 

@@ -21,8 +21,8 @@ class Helper
      * and nothing happens — the plugin continues running normally.
      * Never use error_log() directly in production.
      *
-     * @param string               $message Log message.
-     * @param string               $level   error | warning | notice |info
+     * @param string $message Log message.
+     * @param string $level error | warning | notice |info
      * @param array<string, mixed> $context Optional structured context.
      */
     public static function log(string $message, string $level = 'info', array $context = []): void
@@ -30,14 +30,15 @@ class Helper
         $context = array_merge(['plugin' => 'rrze-codebox'], $context);
 
         $action = match ($level) {
-            'error'   => 'rrze.log.error',
+            'error' => 'rrze.log.error',
             'warning' => 'rrze.log.warning',
-            'notice'  => 'rrze.log.notice',
-            default   => 'rrze.log.info',
+            'notice' => 'rrze.log.notice',
+            default => 'rrze.log.info',
         };
 
         do_action($action, $message, $context);
     }
+
 
     /**
      * Returns true when WordPress debug mode is active.

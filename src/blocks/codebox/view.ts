@@ -11,10 +11,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 // ─── Copy to clipboard
 
 function initCopyButtons(): void {
-    const buttons = document.querySelectorAll< HTMLButtonElement
-    >(
-        '.rrze-codebox__copy-button'
-    );
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.rrze-codebox__copy-button');
     buttons.forEach( ( button ) => {
         // aria-label für den Reset merken
         const ariaLabel = button.getAttribute( 'aria-label' );
@@ -28,8 +25,7 @@ function initCopyButtons(): void {
 function handleCopy( event: Event ): void {
     const button  = event.currentTarget as HTMLButtonElement;
     const wrapper = button.closest( '.rrze-codebox' );
-    const codeEl  = wrapper?.querySelector< HTMLElement >(
-        '.rrze-codebox__code' );
+    const codeEl  = wrapper?.querySelector<HTMLElement>('.rrze-codebox__code');
 
     if ( ! codeEl ) {
         return;
@@ -78,7 +74,7 @@ function markAsCopied( button: HTMLButtonElement ): void {
         button.setAttribute(
             'aria-label',
             button.dataset.originalAriaLabel ?? 'Copy code to clipboard'
-    );
+        );
         button.removeAttribute( 'aria-pressed' );
         button.disabled = false;
     }, 2000 );

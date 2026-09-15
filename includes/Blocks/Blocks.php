@@ -25,6 +25,7 @@ class Blocks
         add_filter('block_categories_all', [$this, 'registerBlockCategory'], 10, 1);
     }
 
+
     /**
      * Adds the RRZE category to the block inserter if not already present.
      *
@@ -42,12 +43,13 @@ class Blocks
         }
 
         $categories[] = [
-            'slug'  => 'rrze',
+            'slug' => 'rrze',
             'title' => __('RRZE', 'rrze-codebox'),
         ];
 
         return $categories;
     }
+
 
     /**
      * Registers each block from its build directory and passes the
@@ -61,8 +63,8 @@ class Blocks
             if (!file_exists($path . '/block.json')) {
                 // Build output missing — fail quietly instead of a fatal
                 // error so a fresh checkout without npm run build is usable.
-                  continue;
-              }
+                continue;
+            }
 
             $blockType = register_block_type($path);
 
