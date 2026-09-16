@@ -34,6 +34,7 @@ interface Attributes {
     syntaxHighlighting: boolean;
     caption: string;
     captionUrl: string;
+    contentEncoding: 'raw' | 'base64';
 }
 
 interface HighlightResponse {
@@ -82,9 +83,12 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         syntaxHighlighting,
         caption,
         captionUrl,
+        contentEncoding
     } = attributes;
 
-    const decodedContent = decodeContent(content);
+    const decodedContent = attributes.contentEncoding === 'base64'
+        ? decodeContent(content)
+        : content;
 
     const [previewHtml, setPreviewHtml] = useState<string>('');
 
@@ -219,7 +223,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                 {isSelected ? (
                     <PlainText
                         value={decodedContent}
-                        onChange={(value) => setAttributes({content: encodeContent(value)})}
+                        onChange={(value) => setAttributes({content: encodeContent(value), contentEncoding: 'base64'})}
                         placeholder={__('Paste or type your code here…', 'rrze-codebox')}
                         aria-label={__('Code input', 'rrze-codebox')}
                         style={{minHeight: `${Math.max(3, decodedContent.split('\n').length) * 1.5}em`}}
@@ -231,7 +235,7 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                                 className="rrze-codebox__pre"
                                 style={showLineNumbers ? {'--rrze-codebox-first-line': firstLineNumber} as React.CSSProperties : {}}
                             >
-                                {showLineNumbers && lineNumberRows(previewHtml)}
+                                {showLineNumbers && lineNumberRows(decodedContent)}
                                 {/* Safe: HTML comes from our own REST endpoint
                                     (edit_posts required) and highlight.php escapes
                                     all user input via htmlspecialchars(). */}

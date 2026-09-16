@@ -57,8 +57,9 @@
     },
     "contentEncoding": {
       "type": "string",
-      "default": "base64",
+      "default": "raw",
       "enum": [
+        "raw",
         "base64"
       ]
     }
