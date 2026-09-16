@@ -3,7 +3,7 @@
 /**
  * Plugin Name:        RRZE CodeBox
  * Plugin URI:         https://github.com/RRZE-Webteam/rrze-codebox
- * Version:            1.0.0-10
+ * Version:            1.0.0-11
  * Description:        Adds a block for displaying syntax-highlighted code
  * Author:             RRZE Webteam
  * Author URI:         https://www.wp.rrze.fau.de/
@@ -28,7 +28,7 @@ const RRZE_CODEBOX_WP_VERSION = '6.8';
 
 // Runtime constants — define() required because plugin_dir_path/url() are
 // function calls, and these values must be accessible from all namespaces.
-define('RRZE_CODEBOX_VERSION', '1.0.0-10');
+define('RRZE_CODEBOX_VERSION', '1.0.0-11');
 define('RRZE_CODEBOX_FILE', __FILE__);
 define('RRZE_CODEBOX_DIR', plugin_dir_path(__FILE__));
 define('RRZE_CODEBOX_URL', plugin_dir_url(__FILE__));

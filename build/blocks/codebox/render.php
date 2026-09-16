@@ -104,8 +104,7 @@ $wrapperAttributes = get_block_wrapper_attributes([
                 <span class="rrze-codebox__caption-text"><?php echo esc_html($caption); ?></span>
             <?php endif; ?>
             <?php if ($captionUrl) : ?>
-                <a href="<?php echo esc_url($captionUrl); ?>" class="rrze-codebox__caption-src"
-                   rel="noopener noreferrer" target="_blank">
+                <a href="<?php echo esc_url($captionUrl); ?>" class="rrze-codebox__caption-src">
                     <?php esc_html_e('Source', 'rrze-codebox'); ?>
                 </a>
             <?php endif; ?>
