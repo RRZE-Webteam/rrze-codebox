@@ -7,6 +7,7 @@ namespace RRZE\Codebox;
 defined('ABSPATH') || exit;
 
 use RRZE\Codebox\Blocks\Blocks;
+use RRZE\Codebox\Blocks\ContentStorage;
 use RRZE\Codebox\REST\Endpoint;
 
 /**
@@ -26,6 +27,7 @@ class Main
     private function init(): void
     {
         (new Blocks())->init();
+        (new ContentStorage())->init();
         (new Endpoint())->init();
     }
 }

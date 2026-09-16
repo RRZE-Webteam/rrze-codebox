@@ -16,8 +16,9 @@ export function encodeContent(raw: string): string {
 /**
  * Decodes a Base64-encoded string back to Unicode (UTF-8).
  *
- * Returns the original string unchanged if decoding fails —
- * this handles legacy blocks that stored raw content.
+ * Only call this for content explicitly marked as Base64. Decodability
+ * cannot distinguish legacy raw text from encoded text.
+ * Returns the original string unchanged if decoding fails.
  */
 export function decodeContent(encoded: string): string {
     try {

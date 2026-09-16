@@ -56,8 +56,9 @@ class Helper
      * KSES from stripping HTML tags in code examples (e.g. <script>)
      * for users without the unfiltered_html capability.
      *
-     * Returns the original string unchanged when decoding fails —
-     * this handles legacy blocks that stored raw content.
+     * Only call this for content explicitly marked as Base64. Decodability
+     * cannot distinguish legacy raw text from encoded text.
+     * Returns the original string unchanged when decoding fails.
      *
      * @param string $encoded The Base64-encoded string.
      * @return string         The decoded source code.
@@ -93,5 +94,4 @@ class Helper
         return htmlspecialchars($code, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', true);
     }
 }
-
 

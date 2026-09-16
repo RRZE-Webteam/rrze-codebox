@@ -1,0 +1,2 @@
+# Test files must not be accessible over HTTP.
+Require all denied

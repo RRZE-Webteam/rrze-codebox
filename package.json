@@ -38,6 +38,7 @@
         "lint:css": "wp-scripts lint-style",
         "format": "wp-scripts format",
         "test:unit": "wp-scripts test-unit-js",
+        "test:php": "php tests/storage.php",
         "i18n:php": "wp i18n make-pot . languages/rrze-codebox-php.pot --exclude=node_modules --exclude=build --exclude=vendor --domain=rrze-codebox",
         "i18n:block": "wp-scripts i18n src --output-file=languages/rrze-codebox-block.pot",
         "i18n:merge": "wp i18n make-pot . languages/rrze-codebox.pot --exclude=node_modules,build,vendor --domain=rrze-codebox --merge=languages/rrze-codebox-block.pot",

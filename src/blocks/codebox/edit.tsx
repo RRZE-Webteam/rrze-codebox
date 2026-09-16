@@ -86,11 +86,19 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         contentEncoding
     } = attributes;
 
-    const decodedContent = attributes.contentEncoding === 'base64'
+    const decodedContent = contentEncoding === 'base64'
         ? decodeContent(content)
         : content;
 
     const [previewHtml, setPreviewHtml] = useState<string>('');
+
+    // Migrate untouched legacy blocks too, e.g. when only the post title changes.
+    // Never infer the encoding from the text: valid Base64 can also be raw code.
+    useEffect(() => {
+        if (contentEncoding !== 'base64') {
+            setAttributes({content: encodeContent(content), contentEncoding: 'base64'});
+        }
+    }, [content, contentEncoding, setAttributes]);
 
     const blockProps = useBlockProps({
         className: [
@@ -264,4 +272,3 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
         </>
     );
 }
-
