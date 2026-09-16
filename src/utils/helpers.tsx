@@ -34,10 +34,11 @@ export function decodeContent(encoded: string): string {
  *
  * Extracted from the JSX template so the render return stays readable.
  *
- * @param html      The highlighted HTML string (newlines determine count).
+ * @param code      The code string (HTML or plain text; newlines determine count).
  */
-export function lineNumberRows(html: string): JSX.Element {
-    const count = Math.max(1, (html.match(/\n/g) ?? []).length + 1);
+export function lineNumberRows(code: string): JSX.Element {
+    const trimmed = code.replace(/[\r\n]+$/, '');
+    const count = Math.max(1, (trimmed.match(/\n/g) ?? []).length + 1);
     return (
         <span className="rrze-codebox__line-numbers-rows" aria-hidden>
          {Array.from({length: count}).map((_, i) => <span key={i}/>)}

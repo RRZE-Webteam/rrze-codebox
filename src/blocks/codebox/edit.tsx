@@ -242,11 +242,16 @@ export default function Edit({attributes, setAttributes, isSelected}: EditProps)
                             </pre>
                         ) : (
                             decodedContent && (
-                                <pre className="rrze-codebox__pre">
+                                <pre
+                                    className="rrze-codebox__pre"
+                                    style={showLineNumbers ? {'--rrze-codebox-first-line': firstLineNumber} as React.CSSProperties : {}}
+                                >
+                                    {showLineNumbers && lineNumberRows(decodedContent)}
                                     <code className={`rrze-codebox__code language-${language}`}>
                                         {decodedContent}
                                     </code>
                                 </pre>
+
                             )
                         )}
                     </div>
