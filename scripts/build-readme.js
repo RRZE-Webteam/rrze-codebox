@@ -51,7 +51,9 @@ function main() {
 
     let content = fs.readFileSync(README_TXT, 'utf8');
 
-    content = replaceOrFail(content, /Stable tag:\s*[^\r\n]+/, 'Stable tag: ' + pkg.version, 'Stable tag');
+    const stableVersion = pkg.version.replace(/-.*$/, '');
+    content = replaceOrFail(content, /Stable tag:\s*[^\r\n]+/, 'Stable tag: ' + stableVersion, 'Stable tag');
+
 
     if (compat.wprequires) {
         content = replaceOrFail(
