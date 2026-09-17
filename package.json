@@ -1,0 +1,58 @@
+{
+    "name": "rrze-codebox",
+    "version": "1.0.0-12",
+    "description": "Displays formatted, syntax-highlighted code blocks on WordPress sites.",
+    "license": "GPL-3.0-or-later",
+    "private": true,
+    "engines": {
+        "node": ">=20",
+        "npm": ">=10"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RRZE-Webteam/rrze-codebox",
+        "issues": "https://github.com/RRZE-Webteam/rrze-codebox/issues",
+        "clone": "git+https://github.com/RRZE-Webteam/rrze-codebox.git"
+    },
+    "author": {
+        "name": "RRZE-Webteam <webmaster@fau.de> (https://www.rrze.fau.de)",
+        "url": "https://www.wordpress.rrze.fau.de"
+    },
+    "compatibility": {
+        "wprequires": "6.8",
+        "wptestedup": "6.8",
+        "phprequires": "8.2"
+    },
+    "scripts": {
+        "readme": "node scripts/build-readme.js",
+        "version:dev": "node scripts/build-version.js dev",
+        "version:prod": "node scripts/build-version.js prod",
+        "version:release": "node scripts/build-version.js release",
+        "version:major": "node scripts/build-version.js major",
+        "build": "wp-scripts build",
+        "start": "wp-scripts start",
+        "dev": "wp-scripts build && npm run version:dev && npm run readme",
+        "prod": "wp-scripts build && npm run version:prod && npm run readme",
+        "release": "wp-scripts build && npm run version:release && npm run readme",
+        "lint:js": "wp-scripts lint-js",
+        "lint:css": "wp-scripts lint-style",
+        "format": "wp-scripts format",
+        "test:unit": "wp-scripts test-unit-js",
+        "test:php": "php tests/storage.php",
+        "i18n:php": "wp i18n make-pot . languages/rrze-codebox-php.pot --exclude=node_modules --exclude=build --exclude=vendor --domain=rrze-codebox",
+        "i18n:block": "wp-scripts i18n src --output-file=languages/rrze-codebox-block.pot",
+        "i18n:merge": "wp i18n make-pot . languages/rrze-codebox.pot --exclude=node_modules,build,vendor --domain=rrze-codebox --merge=languages/rrze-codebox-block.pot",
+        "i18n:json": "wp i18n make-json languages --no-purge",
+        "i18n:all": "npm run i18n:php && npm run i18n:block && npm run i18n:merge && npm run i18n:json"
+    },
+    "devDependencies": {
+        "@wordpress/api-fetch": "^7.54.0",
+        "@wordpress/block-editor": "^17.0.0",
+        "@wordpress/blocks": "^15.27.0",
+        "@wordpress/components": "^40.0.0",
+        "@wordpress/element": "^8.6.0",
+        "@wordpress/i18n": "^6.27.0",
+        "@wordpress/scripts": "^30.0.0",
+        "@types/react": "^18.3.1"
+    }
+}

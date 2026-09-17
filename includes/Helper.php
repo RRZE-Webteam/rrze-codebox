@@ -1,0 +1,97 @@
+<?php
+
+declare(strict_types=1);
+
+namespace RRZE\Codebox;
+
+defined('ABSPATH') || exit;
+
+/**
+ * Static utility methods shared across plugin subsystems.
+ *
+ * Keep this small. A method that belongs exclusively to one subsystem
+ * lives in that subsystem's class, not here.
+ */
+class Helper
+{
+    /**
+     * Logs a message via the rrze-log plugin.
+     *
+     * If rrze-log is not active the do_action() call has no listeners
+     * and nothing happens — the plugin continues running normally.
+     * Never use error_log() directly in production.
+     *
+     * @param string $message Log message.
+     * @param string $level error | warning | notice |info
+     * @param array<string, mixed> $context Optional structured context.
+     */
+    public static function log(string $message, string $level = 'info', array $context = []): void
+    {
+        $context = array_merge(['plugin' => 'rrze-codebox'], $context);
+
+        $action = match ($level) {
+            'error' => 'rrze.log.error',
+            'warning' => 'rrze.log.warning',
+            'notice' => 'rrze.log.notice',
+            default => 'rrze.log.info',
+        };
+
+        do_action($action, $message, $context);
+    }
+
+
+    /**
+     * Returns true when WordPress debug mode is active.
+     */
+    public static function isDebug(): bool
+    {
+        return defined('WP_DEBUG') && WP_DEBUG;
+    }
+
+
+    /**
+     * Decodes a Base64-encoded code string back to its original form.
+     *
+     * Block attributes are stored Base64-encoded to prevent WordPress
+     * KSES from stripping HTML tags in code examples (e.g. <script>)
+     * for users without the unfiltered_html capability.
+     *
+     * Only call this for content explicitly marked as Base64. Decodability
+     * cannot distinguish legacy raw text from encoded text.
+     * Returns the original string unchanged when decoding fails.
+     *
+     * @param string $encoded The Base64-encoded string.
+     * @return string         The decoded source code.
+     */
+    public static function decodeContent(string $encoded): string
+    {
+        if ($encoded === '') {
+            return '';
+        }
+
+        $decoded = base64_decode($encoded, true);
+
+        if ($decoded === false) {
+            return $encoded;
+        }
+
+        return $decoded;
+    }
+
+
+    /**
+     * Escapes raw source code for safe HTML output.
+     *
+     * Unlike esc_html(), this enables double_encode so that existing
+     * HTML entities in code (e.g. &lt;) are preserved literally
+     * instead of being rendered as their character equivalent.
+     *
+     * @param string $code Raw source code.
+     * @return string      Safe HTML string.
+     */
+    public static function escapeCode(string $code): string
+    {
+        return htmlspecialchars($code, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', true);
+    }
+}
+

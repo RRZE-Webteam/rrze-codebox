@@ -1,0 +1,19 @@
+{
+  "name": "rrze/codebox",
+  "description": "Adds a block for displaying syntax-highlighted code.",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "php": ">=8.2",
+    "scrivo/highlight.php": "^9.18"
+  },
+  "autoload": {
+    "psr-4": {
+      "RRZE\\Codebox\\": "includes/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}

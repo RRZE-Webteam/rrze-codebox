@@ -1,0 +1,222 @@
+# Copyright (C) 2026 RRZE Webteam
+# This file is distributed under the GNU General Public License Version 3.
+msgid ""
+msgstr ""
+"Project-Id-Version: RRZE CodeBox 1.0.0-5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/rrze-codebox\n"
+"POT-Creation-Date: 2026-09-15T08:39:49+00:00\n"
+"PO-Revision-Date: 2026-09-15 10:41+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE@formal\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+"X-Domain: rrze-codebox\n"
+
+#. Plugin Name of the plugin
+#: rrze-codebox.php
+msgid "RRZE CodeBox"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: rrze-codebox.php
+msgid "https://github.com/RRZE-Webteam/rrze-codebox"
+msgstr ""
+
+#. Description of the plugin
+#: rrze-codebox.php
+msgid "Adds a block for displaying syntax-highlighted code"
+msgstr "Fügt einen Block zur Anzeige von Code mit Syntaxhervorhebung hinzu"
+
+#. Author of the plugin
+#: rrze-codebox.php
+msgid "RRZE Webteam"
+msgstr ""
+
+#. Author URI of the plugin
+#: rrze-codebox.php
+msgid "https://www.wp.rrze.fau.de/"
+msgstr ""
+
+#: build/blocks/codebox/render.php:71
+msgid "Copy code to clipboard"
+msgstr "Code in die Zwischenablage kopieren"
+
+#: build/blocks/codebox/render.php:72
+msgid "Copied!"
+msgstr "Kopiert!"
+
+#: build/blocks/codebox/render.php:83
+msgid "Copy"
+msgstr "Kopieren"
+
+#: build/blocks/codebox/render.php:121
+msgid "Source"
+msgstr "Quelle"
+
+#: includes/Blocks/Blocks.php:46
+msgid "RRZE"
+msgstr ""
+
+#: includes/Config/Languages.php:32
+msgid "C"
+msgstr ""
+
+#: includes/Config/Languages.php:33
+msgid "C++"
+msgstr ""
+
+#: includes/Config/Languages.php:34
+msgid "C#"
+msgstr ""
+
+#: includes/Config/Languages.php:35
+msgid "CSS"
+msgstr ""
+
+#: includes/Config/Languages.php:36
+msgid "HTML / XML"
+msgstr ""
+
+#: includes/Config/Languages.php:37
+msgid "Java"
+msgstr ""
+
+#: includes/Config/Languages.php:38
+msgid "JavaScript"
+msgstr ""
+
+#: includes/Config/Languages.php:39
+msgid "JSON"
+msgstr ""
+
+#: includes/Config/Languages.php:40
+msgid "Perl"
+msgstr ""
+
+#: includes/Config/Languages.php:41
+msgid "PHP"
+msgstr ""
+
+#: includes/Config/Languages.php:42
+msgid "Python"
+msgstr ""
+
+#: includes/Config/Languages.php:43
+msgid "SCSS"
+msgstr ""
+
+#: includes/Config/Languages.php:44
+msgid "SQL"
+msgstr ""
+
+#. translators: %s: maximum allowed character count
+#: includes/REST/Endpoint.php:108
+#, php-format
+msgid "The code must not exceed %s characters."
+msgstr "Der Code darf %s Zeichen nicht überschreiten."
+
+#. translators: 1: Current PHP version. 2: Required PHP version.
+#: rrze-codebox.php:73
+#, php-format
+msgid ""
+"RRZE CodeBox requires PHP %2$s or higher. Your server is running PHP %1$s."
+msgstr ""
+"RRZE CodeBox erfordert PHP %2$s oder höher. Auf Ihrem Server läuft PHP %1$s."
+
+#. translators: 1: Current WordPress version. 2: Required WordPress version.
+#: rrze-codebox.php:82
+#, php-format
+msgid ""
+"RRZE CodeBox requires WordPress %2$s or higher. Your site is running "
+"WordPress %1$s."
+msgstr ""
+"RRZE CodeBox erfordert WordPress %2$s oder höher. Auf Ihrer Website läuft "
+"WordPress %1$s."
+
+#: build/blocks/codebox/index.js:161
+msgid "Light theme"
+msgstr "Helles Design"
+
+#: build/blocks/codebox/index.js:168
+msgid "Dark theme"
+msgstr "Dunkles Design"
+
+#: build/blocks/codebox/index.js:182 build/blocks/codebox/index.js:199
+msgid "Language"
+msgstr "Sprache"
+
+#: build/blocks/codebox/index.js:197
+msgid "Code settings"
+msgstr "Code-Einstellungen"
+
+#: build/blocks/codebox/index.js:206
+msgid "Show line numbers"
+msgstr "Zeilennummern anzeigen"
+
+#: build/blocks/codebox/index.js:212
+msgid "First line number"
+msgstr "Erste Zeilennummer"
+
+#: build/blocks/codebox/index.js:219
+msgid "Syntax highlighting"
+msgstr "Syntax-Hervorhebung"
+
+#: build/blocks/codebox/index.js:225
+msgid "Show language label"
+msgstr "Sprache anzeigen"
+
+#: build/blocks/codebox/index.js:232
+msgid "Caption"
+msgstr "Beschriftung "
+
+#: build/blocks/codebox/index.js:235
+msgid "Description"
+msgstr "Beschreibung"
+
+#: build/blocks/codebox/index.js:241
+msgid "Source URL"
+msgstr "Quell-URL"
+
+#: build/blocks/codebox/index.js:256
+msgid "Paste or type your code here…"
+msgstr "Code hier einfügen oder eingeben… "
+
+#: build/blocks/codebox/index.js:257
+msgid "Code input"
+msgstr "Code-Eingabe"
+
+#: build/blocks/codebox/block.json
+msgctxt "block title"
+msgid "CodeBox"
+msgstr ""
+
+#: build/blocks/codebox/block.json
+msgctxt "block description"
+msgid "Add syntax-highlighted code to your page"
+msgstr "Code mit Syntax-Hervorhebung in die Seite einbinden."
+
+#: build/blocks/codebox/block.json
+msgctxt "block keyword"
+msgid "code"
+msgstr "Code"
+
+#: build/blocks/codebox/block.json
+msgctxt "block keyword"
+msgid "syntax"
+msgstr "Syntax"
+
+#: build/blocks/codebox/block.json
+msgctxt "block keyword"
+msgid "highlight"
+msgstr "Hervorhebung"
+
+#: build/blocks/codebox/block.json
+msgctxt "block keyword"
+msgid "programming"
+msgstr "Programmieren"
+
+#~ msgid "Updating preview…"
+#~ msgstr "Vorschau wird aktualisiert… "

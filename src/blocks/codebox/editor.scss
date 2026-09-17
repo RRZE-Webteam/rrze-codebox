@@ -1,0 +1,23 @@
+// PlainText = <textarea>
+.rrze-codebox {
+  .block-editor-plain-text {
+    display: block;
+    width: 100%;
+    padding: 1em 1.25em;
+    font-family: "Source Code Pro", monospace;
+    font-size: 1em;
+    line-height: 1.5;
+    color: inherit;
+    background: transparent;
+    white-space: pre;
+    tab-size: 4;
+    resize: vertical;
+    box-shadow: none;
+    outline: none;
+    border: 0.8px solid #dedede;
+  }
+
+  &__body {
+    border-top: 1px solid var(--rrze-codebox-border);
+  }
+}

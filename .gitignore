@@ -1,0 +1,34 @@
+# Dependencies (reinstalled via `npm ci`; package-lock.json IS committed).
+# Never commit or upload node_modules — it is large, rebuildable, and not
+# part of the maintained source (Standard section 39.2).
+/node_modules/
+
+# LLM tool configuration is a personal/workstation concern, never a plugin
+# artifact. The RRZE LLM specification requires these to live only in each
+# developer's global tool config (e.g. ~/.claude/CLAUDE.md) and explicitly
+# forbids duplicating the RRZE standard into a per-plugin copy
+# (LLM-Spezifikation-Dauerhafte-Anweisungen.md). A project-local file is
+# only ever allowed for genuine plugin-specific instructions, never as a
+# place to store or mirror the standard — and even then it stays out of
+# this repository unless the team explicitly decides otherwise.
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.cursor/rules/
+
+# Local IDE / OS artifacts
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local environment / credentials — never commit these regardless
+.env
+.env.*
+wp-config-local.php
+
+# Logs, temp, coverage
+*.log
+*.tmp
+/coverage/
+

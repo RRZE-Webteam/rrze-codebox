@@ -1,0 +1,282 @@
+/**
+ * Frontend + editor shared styling.
+ * Scoped to .rrze-codebox — no global selectors.
+ * Colours are defined as CSS custom properties so the dark theme
+ * only needs to redefine them inside &--dark, without extra selectors.
+ * FAU design-system tokens (--fau-color-*) are used as the primary value;
+ * fallbacks are the raw FAU hex equivalents.
+ */
+
+.rrze-codebox {
+
+  // ── Light theme (default) ──────────────────────────────────────────────
+
+  --rrze-codebox-border: var(--FAU-Col-FAU-Schwarz-25, #888888);
+  --rrze-codebox-header-bg: var(--FAU-Col-FAU-Blau-100, #3C3F41);
+  --rrze-codebox-header-border: var(--FAU-Col-FAU-Blau-100, #3C3F41);
+  --rrze-codebox-body-bg: #fafafa;
+  --rrze-codebox-text: #383a42;
+  --rrze-codebox-header-text: #fff;
+  --rrze-codebox-line-num: #595b5e;
+  --rrze-codebox-caption: #2B2B2B;
+  --rrze-codebox-font: "Source Code Pro", monospace;
+
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.5;
+
+  // Header bar ──────────────────────────────────────────────
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.50em 1em;
+    background: var(--rrze-codebox-header-bg);
+    border: 1px solid var(--rrze-codebox-header-border);
+  }
+
+  &__body {
+    border: 1px solid var(--rrze-codebox-border);
+    border-top: none;
+  }
+
+  &__language-label {
+    font-family: var(--rrze-codebox-font);
+    font-size: 1em;
+    color: var(--rrze-codebox-header-text);
+  }
+
+  &__copy-button {
+    margin-left: auto;
+    font-size: 1em;
+    padding: 0.2em 0.7em;
+    border: none;
+    background: transparent;
+    color: var(--rrze-codebox-header-text);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(0, 0, 0, 0.06);
+      outline: 1px solid currentColor;
+      outline-offset: 1px;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  &__copy-icon {
+    fill: currentColor;
+  }
+
+  // Code area ──────────────────────────────────────────────
+  &__pre {
+    margin: 0;
+    padding: 1em 1.25em;
+    overflow-x: auto;
+    background: var(--rrze-codebox-body-bg);
+    font-size: 0.875rem;
+    border: none; // ← Theme-Border
+    border-radius: 0; // ← Theme-Radius
+  }
+
+  &__code {
+    display: block;
+    font-family: var(--rrze-codebox-font);
+    font-size: 0.875rem;
+    color: var(--rrze-codebox-text);
+    background: transparent;
+    white-space: pre;
+    tab-size: 4;
+  }
+
+  // Line numbers (injected span inside <pre>)
+  &__line-numbers-rows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1em 0.5em 1em 0.15em;
+    min-width: 2.5em;
+    text-align: right;
+    font-family: var(--rrze-codebox-font);
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--rrze-codebox-line-num);
+    user-select: none;
+    pointer-events: none;
+
+    > span {
+      display: block;
+      counter-increment: line;
+
+      &::before {
+        content: counter(line);
+      }
+    }
+  }
+
+  &--line-numbers &__pre {
+    position: relative;
+    padding-left: 4em; // Gutter
+    counter-reset: line calc(var(--rrze-codebox-first-line, 1) - 1);
+  }
+
+  // ── Caption / Source ────────────────────────────────────────────
+  &__caption {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+    padding: 0.4em 1.25em;
+    font-size: 0.9em;
+    color: var(--rrze-codebox-caption);
+    border-top: 1px solid var(--rrze-codebox-border);
+  }
+
+  &__caption-src {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+
+  // ── Syntax token colours — Light (Atom Light) ─────────────────────────────
+  .hljs-comment, .hljs-quote {
+    color: #6B6B6B;
+    font-style: italic;
+  }
+
+  .hljs-doctag, .hljs-keyword, .hljs-formula {
+    color: #a626a4;
+  }
+
+  .hljs-section, .hljs-name, .hljs-selector-tag,
+  .hljs-deletion, .hljs-subst {
+    color: #c0392b;
+  }
+
+  .hljs-literal {
+    color: #0184bb;
+  }
+
+  .hljs-string, .hljs-regexp, .hljs-addition,
+  .hljs-attribute, .hljs-meta .hljs-string {
+    color: #3a7d39;
+  }
+
+  .hljs-attr, .hljs-variable, .hljs-template-variable,
+  .hljs-type, .hljs-selector-class,
+  .hljs-selector-attr, .hljs-selector-pseudo,
+  .hljs-number {
+    color: #986801;
+  }
+
+  .hljs-symbol, .hljs-bullet, .hljs-link,
+  .hljs-meta, .hljs-selector-id, .hljs-title {
+    color: #2566D4;
+  }
+
+  .hljs-built_in, .hljs-title.class_,
+  .hljs-class .hljs-title {
+    color: #c18401;
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    font-weight: bold;
+  }
+
+  .hljs-link {
+    text-decoration: underline;
+  }
+
+
+  // ── Dark theme — redefine custom properties only ───────────────────────
+
+  &--dark {
+    --rrze-codebox-border: #2B2B2B;
+    --rrze-codebox-header-bg: #fff;
+    --rrze-codebox-header-border: #2B2B2B;
+    --rrze-codebox-body-bg: #2B2B2B;
+    --rrze-codebox-text: #abb2bf;
+    --rrze-codebox-header-text: #2B2B2B;
+    --rrze-codebox-line-num: #9198a1;
+    --rrze-codebox-caption: #2B2B2B;
+
+
+    // ── Syntax token colours — Dark (Atom Dark) ───────────────────────
+    .hljs-comment, .hljs-quote {
+      color: #9D9D9D;
+      font-style: italic;
+    }
+
+    .hljs-keyword, .hljs-doctag, .hljs-formula,
+    .hljs-selector-tag {
+      color: #E8954D;
+    }
+
+    .hljs-title, .hljs-section,
+    .hljs-selector-id {
+      color: #79ABCF;
+    }
+
+    .hljs-built_in, .hljs-class .hljs-title {
+      color: #79ABCF;
+    }
+
+    .hljs-variable, .hljs-template-variable,
+    .hljs-attr {
+      color: #B89ACC;
+    }
+
+    .hljs-string, .hljs-regexp, .hljs-addition,
+    .hljs-attribute, .hljs-meta-string {
+      color: #A8C980;
+    }
+
+    .hljs-number, .hljs-literal {
+      color: #79ABCF;
+    }
+
+    .hljs-name, .hljs-deletion, .hljs-subst {
+      color: #E8BF6A;
+    }
+
+    .hljs-symbol, .hljs-bullet, .hljs-link,
+    .hljs-meta {
+      color: #FFC66D;
+    }
+
+    .hljs-emphasis {
+      font-style: italic;
+    }
+
+    .hljs-strong {
+      font-weight: bold;
+    }
+
+    .hljs-link {
+      text-decoration: underline;
+    }
+  }
+
+  // ── Dark theme copy-button hover ───────────────────────────────────────
+  &--dark &__copy-button {
+    &:hover,
+    &:focus-visible {
+      background: rgba(255, 255, 255, 0.07);
+    }
+  }
+}
